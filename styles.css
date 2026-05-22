@@ -84,52 +84,51 @@ body::after {
 /* Header Component */
 header {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  gap: 0.85rem;
-  margin-bottom: 2.25rem;
-  padding-bottom: 1.5rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1.25rem;
   border-bottom: 1px solid var(--card-border);
 }
 
 .logo-container {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.5rem;
   cursor: pointer;
 }
 
 .logo-icon {
-  width: 40px;
-  height: 40px;
+  width: 28px;
+  height: 28px;
   background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
-  border-radius: 12px;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.5rem;
+  font-size: 1.1rem;
   font-weight: 800;
-  color: #ffffff; /* Wit in plaats van de donkere achtergrondkleur voor maximaal contrast */
-  box-shadow: 0 4px 20px rgba(0, 178, 161, 0.2);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 178, 161, 0.15);
 }
 
 .logo-icon-img {
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  box-shadow: 0 6px 16px rgba(0, 178, 161, 0.16);
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 178, 161, 0.12);
   object-fit: cover;
   transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .logo-container:hover .logo-icon-img {
   transform: scale(1.08) rotate(2deg);
-  box-shadow: 0 8px 24px rgba(0, 178, 161, 0.25);
+  box-shadow: 0 6px 14px rgba(0, 178, 161, 0.2);
 }
 
 .logo-text {
   font-family: var(--font-display);
-  font-size: 1.75rem;
+  font-size: 1.25rem;
   font-weight: 800;
   letter-spacing: -0.5px;
   background: linear-gradient(to right, var(--text-primary), var(--text-secondary));
@@ -146,20 +145,19 @@ header {
 .header-actions {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
+  gap: 0.4rem;
 }
 
 .mode-badge {
   background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  padding: 0.22rem 0.65rem;
-  border-radius: 20px;
-  font-size: 0.7rem;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 0.15rem 0.45rem;
+  border-radius: 12px;
+  font-size: 0.65rem;
   font-weight: 600;
   display: flex;
   align-items: center;
-  gap: 0.35rem;
+  gap: 0.3rem;
   letter-spacing: 0.2px;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
@@ -167,24 +165,24 @@ header {
 }
 
 .mode-badge.gmail {
-  background: rgba(234, 67, 53, 0.05);
-  border-color: rgba(234, 67, 53, 0.2);
-  color: var(--danger);
-  box-shadow: 0 0 12px rgba(234, 67, 53, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  background: rgba(234, 67, 53, 0.03);
+  border-color: rgba(234, 67, 53, 0.15);
+  color: hsl(350, 95%, 72%);
+  box-shadow: 0 0 10px rgba(234, 67, 53, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.02);
 }
 
 .mode-badge.demo {
-  background: rgba(0, 178, 161, 0.05);
-  border-color: rgba(0, 178, 161, 0.2);
+  background: rgba(0, 178, 161, 0.03);
+  border-color: rgba(0, 178, 161, 0.15);
   color: var(--color-primary);
-  box-shadow: 0 0 12px rgba(0, 178, 161, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  box-shadow: 0 0 10px rgba(0, 178, 161, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.02);
 }
 
 .mode-badge.outlook {
-  background: rgba(0, 164, 239, 0.05);
-  border-color: rgba(0, 164, 239, 0.2);
-  color: hsl(205, 100%, 55%);
-  box-shadow: 0 0 12px rgba(0, 164, 239, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  background: rgba(0, 164, 239, 0.03);
+  border-color: rgba(0, 164, 239, 0.15);
+  color: hsl(205, 100%, 65%);
+  box-shadow: 0 0 10px rgba(0, 164, 239, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.02);
 }
 
 .badge-dot {
@@ -479,19 +477,19 @@ select option {
 }
 
 .btn-disconnect {
-  background: rgba(234, 67, 54, 0.05);
-  border: 1px solid rgba(234, 67, 54, 0.2);
-  color: hsl(350, 95%, 72%);
-  padding: 0.22rem 0.65rem;
-  font-size: 0.7rem;
-  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: var(--text-muted);
+  padding: 0.15rem 0.45rem;
+  font-size: 0.65rem;
+  border-radius: 12px;
   font-weight: 600;
   height: auto;
   min-height: 0;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  transition: var(--transition-bounce);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  transition: var(--transition-smooth);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02);
 }
 
 .btn-disconnect::after {
@@ -499,11 +497,11 @@ select option {
 }
 
 .btn-disconnect:hover {
-  background: rgba(234, 67, 54, 0.12);
+  background: rgba(234, 67, 54, 0.08);
   border-color: rgba(234, 67, 54, 0.35);
   color: hsl(350, 100%, 78%);
   transform: translateY(-1px);
-  box-shadow: 0 4px 10px rgba(234, 67, 54, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  box-shadow: 0 4px 10px rgba(234, 67, 54, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.03);
 }
 
 .btn-disconnect:active {
