@@ -110,6 +110,20 @@
 
                   <div id="outlook-advanced-fields" style="display: none; margin-top: 1rem; border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 1rem;">
                     <div class="form-group" style="margin-bottom: 1rem;">
+                      <label for="outlook-authority-type">Account Type (Microsoft Autoriteit)</label>
+                      <div class="input-wrapper">
+                        <select id="outlook-authority-type" style="width: 100%; cursor: pointer;">
+                          <option value="consumers" selected>Persoonlijk Microsoft account (Outlook/Hotmail/Live)</option>
+                          <option value="common">Beide / Organisatie &amp; Persoonlijk (Common)</option>
+                          <option value="organizations">Alleen Werk / School account (Organisaties)</option>
+                        </select>
+                      </div>
+                      <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.35rem;">
+                        Voor consumenten-e-mail is 'Persoonlijk' de juiste instelling. Wijzig dit als je Azure App alleen werkaccounts ondersteunt.
+                      </p>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 1rem;">
                       <label for="outlook-client-id">Microsoft Application (Client) ID (Optioneel)</label>
                       <div class="input-wrapper">
                         <input type="text" id="outlook-client-id" placeholder="Voer eigen Client-ID in">

@@ -326,7 +326,7 @@ label {
   position: relative;
 }
 
-input[type="text"], input[type="email"] {
+input[type="text"], input[type="email"], select {
   width: 100%;
   background: rgba(0, 0, 0, 0.25);
   border: 1px solid var(--card-border);
@@ -338,10 +338,15 @@ input[type="text"], input[type="email"] {
   transition: var(--transition-smooth);
 }
 
-input[type="text"]:focus, input[type="email"]:focus {
+input[type="text"]:focus, input[type="email"]:focus, select:focus {
   outline: none;
   border-color: var(--color-primary);
   box-shadow: 0 0 15px rgba(0, 178, 161, 0.15);
+}
+
+select option {
+  background: hsl(165, 25%, 10%);
+  color: var(--text-primary);
 }
 
 /* Specifieke styling voor de e-mailinvoervelden om deze groter en uiterst netjes te maken */

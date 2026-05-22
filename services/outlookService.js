@@ -26,17 +26,42 @@ export function saveEmailAddress(email) {
 }
 
 // Initialiseer MSAL Client
-export async function initOutlookClient(clientId, onError) {
+export async function initOutlookClient(clientId, authorityTypeOrOnError, onError = null) {
+  let authorityType = 'consumers';
+  let errorHandler = onError;
+
+  if (typeof authorityTypeOrOnError === 'function') {
+    errorHandler = authorityTypeOrOnError;
+  } else if (typeof authorityTypeOrOnError === 'string') {
+    authorityType = authorityTypeOrOnError;
+  }
+
+  const triggerError = (msg) => {
+    if (typeof errorHandler === 'function') {
+      errorHandler(msg);
+    } else {
+      console.error(msg);
+    }
+  };
+
   try {
     if (typeof msal === 'undefined') {
-      onError('Microsoft MSAL Browser SDK is niet geladen. Controleer je internetverbinding.');
+      triggerError('Microsoft MSAL Browser SDK is niet geladen. Controleer je internetverbinding.');
       return false;
     }
+
+    const authorityMap = {
+      consumers: "https://login.microsoftonline.com/consumers",
+      common: "https://login.microsoftonline.com/common",
+      organizations: "https://login.microsoftonline.com/organizations"
+    };
+    
+    const chosenAuthority = authorityMap[authorityType] || authorityMap.consumers;
 
     const msalConfig = {
       auth: {
         clientId: clientId,
-        authority: "https://login.microsoftonline.com/common", // Ondersteunt zowel werk/school als persoonlijke MS-accounts
+        authority: chosenAuthority,
         redirectUri: window.location.origin,
         navigateToLoginRequestUrl: false
       },
@@ -72,7 +97,7 @@ export async function initOutlookClient(clientId, onError) {
     }
     return false;
   } catch (err) {
-    onError(`Microsoft initialisatie fout: ${err.message}`);
+    triggerError(`Microsoft initialisatie fout: ${err.message}`);
     return false;
   }
 }

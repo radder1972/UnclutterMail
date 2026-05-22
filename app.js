@@ -305,9 +305,14 @@ async function startScanning() {
     const outlookClientIdToUse = state.outlookClientId || DEFAULT_OUTLOOK_CLIENT_ID;
 
     try {
-      // 1. Initialiseer en probeer stille aanmelding te herstellen
+      // 1. Verkrijg de gekozen Microsoft Autoriteit van het dropdown menu
+      const authoritySelect = document.getElementById('outlook-authority-type');
+      const authorityType = authoritySelect ? authoritySelect.value : 'consumers';
+
+      // 2. Initialiseer en probeer stille aanmelding te herstellen
       const hasSession = await initOutlookClient(
         outlookClientIdToUse,
+        authorityType,
         (errMsg) => {
           console.warn("MSAL silent init warning/error:", errMsg);
         }
