@@ -52,6 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setupFilterTabs();
   setupHeaderActions();
   setupAdvancedToggle();
+  setupLogoNavigation();
 });
 
 // 1. Instellen van de modus-selectie (Demo vs Gmail vs Outlook)
@@ -534,4 +535,19 @@ function setupHeaderActions() {
       document.getElementById('outlook-setup-fields').style.display = 'none';
     });
   }
+}
+
+// 7. Klik op het logo om terug te keren naar de start van de selectie (Welkomscherm)
+function setupLogoNavigation() {
+  const logos = document.querySelectorAll('.logo-container, .logo-hero-container');
+  logos.forEach(logo => {
+    logo.addEventListener('click', () => {
+      // Verberg eventuele geopende foutmeldingen bij terugkeer naar home
+      const errorCard = document.getElementById('error-diagnostic-card');
+      if (errorCard) errorCard.style.display = 'none';
+
+      // Ga terug naar het startscherm / welkomscherm
+      showScreen('screen-welcome');
+    });
+  });
 }

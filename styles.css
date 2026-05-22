@@ -95,6 +95,7 @@ header {
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  cursor: pointer;
 }
 
 .logo-icon {
@@ -214,6 +215,12 @@ header {
   margin-top: 1rem;
   margin-bottom: 2rem;
   text-align: center;
+  cursor: pointer;
+  transition: var(--transition-bounce);
+}
+
+.logo-hero-container:hover {
+  transform: scale(1.03);
 }
 
 .logo-hero-img {
