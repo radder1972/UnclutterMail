@@ -14,6 +14,8 @@ import {
   disconnectGmail, 
   getSavedClientId, 
   saveClientId, 
+  getSavedEmailAddress,
+  saveEmailAddress,
   scanRealGmail, 
   unsubscribeRealGmail 
 } from './services/gmailService.js';
@@ -33,13 +35,14 @@ let state = {
   newsletters: [],
   activeFilter: 'all',
   clientId: '',
+  gmailEmailAddress: '',
   outlookClientId: ''
 };
 
 // Initialisatie als de DOM geladen is
 document.addEventListener('DOMContentLoaded', () => {
   setupModeSelection();
-  setupClientIdInput();
+  setupCredentialsInput();
   setupScanTriggers();
   setupFilterTabs();
   setupHeaderActions();
@@ -106,8 +109,8 @@ function setupModeSelection() {
   }
 }
 
-// 2. Client ID voorbereiden en opslaan
-function setupClientIdInput() {
+// 2. Client ID & Gmail Email voorbereiden en opslaan
+function setupCredentialsInput() {
   const gmailInput = document.getElementById('gmail-client-id');
   if (gmailInput) {
     // Laad opgeslagen ID
@@ -119,6 +122,20 @@ function setupClientIdInput() {
     gmailInput.addEventListener('input', (e) => {
       state.clientId = e.target.value.trim();
       saveClientId(state.clientId);
+    });
+  }
+
+  const gmailEmailInput = document.getElementById('gmail-email-address');
+  if (gmailEmailInput) {
+    // Laad opgeslagen Gmail-adres
+    const savedEmail = getSavedEmailAddress();
+    gmailEmailInput.value = savedEmail;
+    state.gmailEmailAddress = savedEmail;
+
+    // Sla op bij typen/focus verlies
+    gmailEmailInput.addEventListener('input', (e) => {
+      state.gmailEmailAddress = e.target.value.trim();
+      saveEmailAddress(state.gmailEmailAddress);
     });
   }
 
@@ -188,6 +205,11 @@ async function startScanning() {
     if (gmailInstructions) gmailInstructions.style.display = 'block';
     if (outlookInstructions) outlookInstructions.style.display = 'none';
     
+    if (!state.gmailEmailAddress) {
+      alert('Vul eerst jouw Gmail-adres in om te koppelen met Gmail.');
+      return;
+    }
+
     if (!state.clientId) {
       alert('Vul eerst een geldige Google OAuth Client-ID in om te koppelen met Gmail.');
       return;
@@ -218,8 +240,8 @@ async function startScanning() {
       }
     );
 
-    // Vraag toegang aan (opent popup)
-    requestGmailAccess();
+    // Vraag toegang aan (opent popup met login hint)
+    requestGmailAccess(state.gmailEmailAddress);
   } else if (state.activeMode === 'outlook') {
     // Outlook Modus
     if (outlookInstructions) outlookInstructions.style.display = 'block';
@@ -230,34 +252,27 @@ async function startScanning() {
       return;
     }
 
-    // Initialiseer en start Microsoft flow
-    await initOutlookClient(
-      state.outlookClientId,
-      // Callback bij stilzwijgend token succes (direct scannen)
-      async (token) => {
-        document.getElementById('btn-disconnect').style.display = 'inline-flex';
-        showScreen('screen-scanner');
-        
-        try {
-          const results = await scanRealOutlook((progress) => {
-            updateScannerUI(progress);
-          });
-          
-          state.newsletters = results;
-          finishScanning();
-        } catch (err) {
-          handleScanError(err);
+    try {
+      // 1. Initialiseer en probeer stille aanmelding te herstellen
+      const hasSession = await initOutlookClient(
+        state.outlookClientId,
+        (errMsg) => {
+          console.warn("MSAL silent init warning/error:", errMsg);
         }
-      },
-      // Callback bij fout
-      (errMsg) => {
-        console.warn("MSAL silent init warning/error:", errMsg);
-      }
-    );
+      );
 
-    // Open popup voor authenticatie
-    await requestOutlookAccess(
-      async (token) => {
+      let tokenReceived = false;
+
+      if (hasSession) {
+        // We hebben stilzwijgend al een token gekregen
+        tokenReceived = true;
+      } else {
+        // Geen actieve sessie, start interactieve popup
+        await requestOutlookAccess();
+        tokenReceived = true;
+      }
+
+      if (tokenReceived) {
         document.getElementById('btn-disconnect').style.display = 'inline-flex';
         showScreen('screen-scanner');
         
@@ -271,11 +286,10 @@ async function startScanning() {
         } catch (err) {
           handleScanError(err);
         }
-      },
-      (errMsg) => {
-        handleScanError(errMsg);
       }
-    );
+    } catch (err) {
+      handleScanError(err);
+    }
   }
 }
 

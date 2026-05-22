@@ -46,6 +46,15 @@ export function saveClientId(clientId) {
   localStorage.setItem('unclutter_gmail_client_id', clientId);
 }
 
+// Sla Gmail-adres op in localStorage zodat de gebruiker deze maar één keer hoeft in te voeren
+export function getSavedEmailAddress() {
+  return localStorage.getItem('unclutter_gmail_email_address') || '';
+}
+
+export function saveEmailAddress(email) {
+  localStorage.setItem('unclutter_gmail_email_address', email);
+}
+
 // Initialiseer Google Identity Services en GAPI
 export async function initGoogleClient(clientId, onTokenReceived, onError) {
   try {
@@ -82,12 +91,16 @@ export async function initGoogleClient(clientId, onTokenReceived, onError) {
 }
 
 // Start het aanmeldproces (opent Google popup)
-export function requestGmailAccess() {
+export function requestGmailAccess(loginHint) {
   if (!tokenClient) {
     throw new Error('Google client is niet geïnitialiseerd. Vul eerst een geldige Client-ID in.');
   }
   // Vraag een nieuw token aan (of hergebruik)
-  tokenClient.requestAccessToken({ prompt: 'consent' });
+  const options = { prompt: 'consent' };
+  if (loginHint) {
+    options.login_hint = loginHint;
+  }
+  tokenClient.requestAccessToken(options);
 }
 
 // Uitloggen
