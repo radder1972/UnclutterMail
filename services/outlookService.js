@@ -16,6 +16,15 @@ export function saveClientId(clientId) {
   localStorage.setItem('unclutter_outlook_client_id', clientId);
 }
 
+// Sla Outlook-adres op in localStorage zodat de gebruiker deze maar één keer hoeft in te voeren
+export function getSavedEmailAddress() {
+  return localStorage.getItem('unclutter_outlook_email_address') || '';
+}
+
+export function saveEmailAddress(email) {
+  localStorage.setItem('unclutter_outlook_email_address', email);
+}
+
 // Initialiseer MSAL Client
 export async function initOutlookClient(clientId, onError) {
   try {
@@ -68,16 +77,20 @@ export async function initOutlookClient(clientId, onError) {
   }
 }
 
-// Start het aanmeldproces (opent Microsoft popup)
-export async function requestOutlookAccess() {
+export async function requestOutlookAccess(loginHint) {
   if (!msalInstance) {
     throw new Error('Microsoft client is niet geïnitialiseerd.');
   }
 
   const loginRequest = {
-    scopes: ["User.Read", "Mail.ReadWrite"],
-    prompt: "select_account"
+    scopes: ["User.Read", "Mail.ReadWrite"]
   };
+
+  if (loginHint) {
+    loginRequest.loginHint = loginHint;
+  } else {
+    loginRequest.prompt = "select_account";
+  }
 
   const loginResponse = await msalInstance.loginPopup(loginRequest);
   msalInstance.setActiveAccount(loginResponse.account);

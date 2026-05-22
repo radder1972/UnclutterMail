@@ -26,6 +26,8 @@ import {
   disconnectOutlook,
   getSavedClientId as getSavedOutlookClientId,
   saveClientId as saveOutlookClientId,
+  getSavedEmailAddress as getSavedOutlookEmailAddress,
+  saveEmailAddress as saveOutlookEmailAddress,
   DEFAULT_OUTLOOK_CLIENT_ID,
   scanRealOutlook,
   cleanNewsletterOutlook
@@ -38,7 +40,8 @@ let state = {
   activeFilter: 'all',
   clientId: '',
   gmailEmailAddress: '',
-  outlookClientId: ''
+  outlookClientId: '',
+  outlookEmailAddress: ''
 };
 
 // Initialisatie als de DOM geladen is
@@ -99,6 +102,9 @@ function setupModeSelection() {
       optGmail.classList.remove('active');
       if (outlookSetupFields) {
         outlookSetupFields.style.display = 'block';
+        // Focus het Microsoft/Outlook-adres veld
+        const input = document.getElementById('outlook-email-address');
+        if (input) input.focus();
       }
       if (gmailSetupFields) gmailSetupFields.style.display = 'none';
       
@@ -136,6 +142,20 @@ function setupCredentialsInput() {
     gmailEmailInput.addEventListener('input', (e) => {
       state.gmailEmailAddress = e.target.value.trim();
       saveEmailAddress(state.gmailEmailAddress);
+    });
+  }
+
+  const outlookEmailInput = document.getElementById('outlook-email-address');
+  if (outlookEmailInput) {
+    // Laad opgeslagen Microsoft/Outlook-adres
+    const savedEmail = getSavedOutlookEmailAddress();
+    outlookEmailInput.value = savedEmail;
+    state.outlookEmailAddress = savedEmail;
+
+    // Sla op bij typen/focus verlies
+    outlookEmailInput.addEventListener('input', (e) => {
+      state.outlookEmailAddress = e.target.value.trim();
+      saveOutlookEmailAddress(state.outlookEmailAddress);
     });
   }
 
@@ -268,6 +288,11 @@ async function startScanning() {
     if (outlookInstructions) outlookInstructions.style.display = 'block';
     if (gmailInstructions) gmailInstructions.style.display = 'none';
     
+    if (!state.outlookEmailAddress) {
+      alert('Vul eerst jouw Microsoft- of Outlook-adres in om te koppelen met Outlook.');
+      return;
+    }
+
     const outlookClientIdToUse = state.outlookClientId || DEFAULT_OUTLOOK_CLIENT_ID;
 
     try {
@@ -285,8 +310,8 @@ async function startScanning() {
         // We hebben stilzwijgend al een token gekregen
         tokenReceived = true;
       } else {
-        // Geen actieve sessie, start interactieve popup
-        await requestOutlookAccess();
+        // Geen actieve sessie, start interactieve popup met loginHint
+        await requestOutlookAccess(state.outlookEmailAddress);
         tokenReceived = true;
       }
 
