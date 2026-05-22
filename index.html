@@ -88,7 +88,8 @@
                     <div class="form-group" style="margin-bottom: 1rem;">
                       <label for="gmail-client-id">Google OAuth Client-ID (Optioneel)</label>
                       <div class="input-wrapper">
-                        <input type="text" id="gmail-client-id" placeholder="Standaard ingebouwde ID actief">
+                        <input type="password" id="gmail-client-id" placeholder="Standaard ingebouwde ID actief">
+                        <button type="button" class="btn-toggle-visibility" data-target="gmail-client-id" title="Toon/Verberg Client-ID">👁️</button>
                       </div>
                       <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.35rem;">
                         Laat leeg om de ingebouwde standaard Client-ID te gebruiken. Vul in als je je eigen Google Cloud project wilt koppelen.
@@ -143,7 +144,8 @@
                     <div class="form-group" style="margin-bottom: 1rem;">
                       <label for="outlook-client-id">Microsoft Application (Client) ID (Optioneel)</label>
                       <div class="input-wrapper">
-                        <input type="text" id="outlook-client-id" placeholder="Voer eigen Client-ID in">
+                        <input type="password" id="outlook-client-id" placeholder="Voer eigen Client-ID in">
+                        <button type="button" class="btn-toggle-visibility" data-target="outlook-client-id" title="Toon/Verberg Client-ID">👁️</button>
                       </div>
                       <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.35rem;">
                         Vul in als je je eigen Azure App Registratie wilt koppelen.

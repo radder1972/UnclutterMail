@@ -174,6 +174,24 @@ function setupCredentialsInput() {
       saveOutlookClientId(state.outlookClientId);
     });
   }
+
+  // Voeg functionaliteit toe voor de visibility toggles (oogje-icoon) voor client-ID inputs
+  const visibilityToggles = document.querySelectorAll('.btn-toggle-visibility');
+  visibilityToggles.forEach(toggle => {
+    toggle.addEventListener('click', () => {
+      const targetId = toggle.getAttribute('data-target');
+      const input = document.getElementById(targetId);
+      if (input) {
+        if (input.type === 'password') {
+          input.type = 'text';
+          toggle.textContent = '🙈';
+        } else {
+          input.type = 'password';
+          toggle.textContent = '👁️';
+        }
+      }
+    });
+  });
 }
 
 // Event handler voor de discrete "Geavanceerde Instellingen" toggle
