@@ -402,11 +402,31 @@ function finishScanning() {
   const emailDisplay = document.getElementById('active-email-display');
   if (emailDisplay) {
     if (state.activeMode === 'demo') {
-      emailDisplay.textContent = '✨ Demo Modus (gesimuleerde inbox)';
+      emailDisplay.innerHTML = '✨ Demo Modus (gesimuleerde inbox)';
     } else if (state.activeMode === 'gmail') {
-      emailDisplay.textContent = `📧 Gmail: ${state.gmailEmailAddress}`;
+      emailDisplay.innerHTML = `
+        <span style="display: inline-flex; align-items: center; gap: 0.35rem;">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="16" height="16" style="vertical-align: middle; flex-shrink: 0;">
+            <path fill="#EA4335" d="M24 28.182L3.159 13.91C2.425 14.869 2 16.082 2 17.41V38c0 3.3 2.7 6 6 6h32c3.3 0 6-2.7 6-6V17.41c0-1.328-.425-2.541-1.159-3.5L24 28.182z"/>
+            <path fill="#4285F4" d="M42 8H31.5L24 16.5 16.5 8H6c-3.3 0-6 2.7-6 6v3.41l24 14.182 24-14.182V14c0-3.3-2.7-6-6-6z"/>
+            <path fill="#34A853" d="M0 14v24c0 3.3 2.7 6 6 6h4v-30l-10 6z"/>
+            <path fill="#FBBC05" d="M48 14l-10-6v30h4c3.3 0 6-2.7 6-6V14z"/>
+          </svg>
+          Gmail: <strong style="color: var(--text-primary); margin-left: 0.15rem;">${state.gmailEmailAddress}</strong>
+        </span>
+      `;
     } else if (state.activeMode === 'outlook') {
-      emailDisplay.textContent = `Ⓜ️ Outlook: ${state.outlookEmailAddress}`;
+      emailDisplay.innerHTML = `
+        <span style="display: inline-flex; align-items: center; gap: 0.35rem;">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23 23" width="14" height="14" style="vertical-align: middle; flex-shrink: 0;">
+            <rect x="0" y="0" width="10.5" height="10.5" fill="#F25022"/>
+            <rect x="12.5" y="0" width="10.5" height="10.5" fill="#7FBA00"/>
+            <rect x="0" y="12.5" width="10.5" height="10.5" fill="#00A4EF"/>
+            <rect x="12.5" y="12.5" width="10.5" height="10.5" fill="#FFB900"/>
+          </svg>
+          Outlook: <strong style="color: var(--text-primary); margin-left: 0.15rem;">${state.outlookEmailAddress}</strong>
+        </span>
+      `;
     }
   }
 
