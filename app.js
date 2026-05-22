@@ -333,8 +333,14 @@ function handleScanError(err) {
   const errorCard = document.getElementById('error-diagnostic-card');
   const errorText = document.getElementById('error-msg-text');
   const failedFetchTips = document.getElementById('diagnostic-failed-fetch-tips');
+  const outlookTips = document.getElementById('diagnostic-outlook-tips');
 
-  const message = typeof err === 'object' ? (err.message || err.error || JSON.stringify(err)) : err;
+  let message = '';
+  if (typeof err === 'object' && err !== null) {
+    message = err.errorMessage || err.message || err.errorCode || err.error || JSON.stringify(err);
+  } else {
+    message = String(err);
+  }
 
   if (errorCard && errorText) {
     errorCard.style.display = 'block';
@@ -345,6 +351,19 @@ function handleScanError(err) {
       if (failedFetchTips) failedFetchTips.style.display = 'block';
     } else {
       if (failedFetchTips) failedFetchTips.style.display = 'none';
+    }
+
+    if (outlookTips) {
+      if (
+        errMsgLower.includes('unauthorized_client') || 
+        errMsgLower.includes('not enabled for consumers') || 
+        errMsgLower.includes('client does not exist') ||
+        errMsgLower.includes('invalid_client')
+      ) {
+        outlookTips.style.display = 'block';
+      } else {
+        outlookTips.style.display = 'none';
+      }
     }
     
     errorCard.scrollIntoView({ behavior: 'smooth' });

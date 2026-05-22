@@ -157,6 +157,27 @@
                   </li>
                 </ul>
               </div>
+
+              <div id="diagnostic-outlook-tips" style="display: none; font-size: 0.85rem; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 1rem; color: var(--text-secondary);">
+                <p style="font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem;">Hoe los ik deze Microsoft-fout op?</p>
+                <ul style="padding-left: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; line-height: 1.5;">
+                  <li>
+                    <strong>Consumentenondersteuning inschakelen (unauthorized_client):</strong> Deze fout betekent dat de ingevoerde Client-ID in Azure AD is geregistreerd als <em>Single Tenant</em> of <em>Multitenant (alleen organisatie-accounts)</em> in plaats van ook consumenten-accounts toe te staan.
+                  </li>
+                  <li>
+                    <strong>Stappen in de Azure Portal:</strong>
+                    <ol style="padding-left: 1.25rem; margin-top: 0.25rem; display: flex; flex-direction: column; gap: 0.35rem; list-style-type: decimal;">
+                      <li>Meld je aan op de <a href="https://portal.azure.com" target="_blank" style="color: var(--color-primary); text-decoration: underline;">Azure Portal</a> en ga naar <strong>App Registrations</strong>.</li>
+                      <li>Kies jouw geregistreerde app en klik in het linkermenu op <strong>Authentication</strong>.</li>
+                      <li>Scroll naar <strong>Supported account types</strong> en selecteer:<br><span style="color: var(--text-primary); font-weight: 500;">"Accounts in any organizational directory (Any Microsoft Entra ID tenant - Multitenant) and personal Microsoft accounts (e.g. Skype, Xbox)"</span>.</li>
+                      <li>Zorg er ook voor dat onder de <strong>Single-page application (SPA)</strong> platform-configuratie de Redirect URI exact staat ingesteld op <code>http://localhost:5000</code>.</li>
+                    </ol>
+                  </li>
+                  <li>
+                    <strong>Standaard Client-ID proberen:</strong> Je kunt ook onder <strong>Geavanceerde Instellingen</strong> je eigen Client-ID leegmaken en opstarten om de standaard ingebouwde, werkende app-configuratie te gebruiken!
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
