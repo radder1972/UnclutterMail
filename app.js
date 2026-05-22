@@ -406,11 +406,12 @@ function finishScanning() {
     } else if (state.activeMode === 'gmail') {
       emailDisplay.innerHTML = `
         <span style="display: inline-flex; align-items: center; gap: 0.35rem;">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="16" height="16" style="vertical-align: middle; flex-shrink: 0;">
-            <path fill="#EA4335" d="M24 28.182L3.159 13.91C2.425 14.869 2 16.082 2 17.41V38c0 3.3 2.7 6 6 6h32c3.3 0 6-2.7 6-6V17.41c0-1.328-.425-2.541-1.159-3.5L24 28.182z"/>
-            <path fill="#4285F4" d="M42 8H31.5L24 16.5 16.5 8H6c-3.3 0-6 2.7-6 6v3.41l24 14.182 24-14.182V14c0-3.3-2.7-6-6-6z"/>
-            <path fill="#34A853" d="M0 14v24c0 3.3 2.7 6 6 6h4v-30l-10 6z"/>
-            <path fill="#FBBC05" d="M48 14l-10-6v30h4c3.3 0 6-2.7 6-6V14z"/>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="16" height="16" style="vertical-align: middle; flex-shrink: 0;">
+            <path d="M158 391v-142l-82-63V361q0 30 30 30" fill="#4285F4"/>
+            <path d="M154 248l102 77l102-77v-98l-102 77l-102-77" fill="#EA4335"/>
+            <path d="M354 391v-142l82-63V361q0 30-30 30" fill="#34A853"/>
+            <path d="M76 188l82 63v-98l-30-23c-27-21-52 0-52 26" fill="#C5221F"/>
+            <path d="M436 188l-82 63v-98l30-23c27-21 52 0 52 26" fill="#FBBC05"/>
           </svg>
           Gmail: <strong style="color: var(--text-primary); margin-left: 0.15rem;">${state.gmailEmailAddress}</strong>
         </span>
