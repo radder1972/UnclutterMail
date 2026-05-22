@@ -4,26 +4,26 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap');
 
 :root {
-  /* HSL Color Palette */
-  --bg-primary: hsl(222, 47%, 7%);
-  --bg-secondary: hsl(223, 42%, 11%);
-  --card-bg: rgba(20, 26, 42, 0.55);
-  --card-border: rgba(255, 255, 255, 0.06);
-  --card-glow: rgba(0, 242, 254, 0.03);
+  /* HSL Color Palette - Pristine Light Mode */
+  --bg-primary: hsl(210, 33%, 98%);
+  --bg-secondary: hsl(210, 20%, 94%);
+  --card-bg: rgba(255, 255, 255, 0.75);
+  --card-border: rgba(0, 0, 0, 0.08);
+  --card-glow: rgba(0, 97, 255, 0.02);
   
-  --color-primary: hsl(187, 100%, 42%);      /* Neon Cyaan */
-  --color-primary-rgb: 0, 242, 254;
-  --color-secondary: hsl(263, 90%, 51%);    /* Elektrisch Violet */
+  --color-primary: hsl(215, 100%, 52%);      /* Premium Royal Blue */
+  --color-primary-rgb: 0, 97, 255;
+  --color-secondary: hsl(263, 90%, 55%);    /* Elegant Violet */
   --color-secondary-rgb: 127, 0, 255;
-  --color-accent: hsl(339, 100%, 55%);       /* Neon Roze */
+  --color-accent: hsl(339, 90%, 55%);       /* Vibrant Amber/Pink */
   
-  --text-primary: hsl(210, 40%, 98%);
-  --text-secondary: hsl(215, 25%, 72%);
-  --text-muted: hsl(217, 16%, 48%);
+  --text-primary: hsl(222, 47%, 12%);
+  --text-secondary: hsl(220, 16%, 36%);
+  --text-muted: hsl(218, 12%, 55%);
   
-  --success: hsl(142, 70%, 45%);
-  --warning: hsl(38, 92%, 50%);
-  --danger: hsl(350, 80%, 50%);
+  --success: hsl(142, 60%, 35%);
+  --warning: hsl(38, 92%, 40%);
+  --danger: hsl(350, 75%, 45%);
   
   --font-display: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -53,24 +53,24 @@ body {
 body::before, body::after {
   content: "";
   position: absolute;
-  width: 400px;
-  height: 400px;
+  width: 500px;
+  height: 500px;
   border-radius: 50%;
   pointer-events: none;
   z-index: -1;
-  filter: blur(120px);
-  opacity: 0.15;
+  filter: blur(140px);
+  opacity: 0.25; /* Iets verhoogd voor een prachtig, subtiel kleureffect in de achtergrond */
 }
 
 body::before {
-  top: 10%;
-  left: -5%;
+  top: 5%;
+  left: -10%;
   background: radial-gradient(circle, var(--color-primary) 0%, transparent 80%);
 }
 
 body::after {
-  bottom: 10%;
-  right: -5%;
+  bottom: 5%;
+  right: -10%;
   background: radial-gradient(circle, var(--color-secondary) 0%, transparent 80%);
 }
 
@@ -107,8 +107,8 @@ header {
   justify-content: center;
   font-size: 1.5rem;
   font-weight: 800;
-  color: var(--bg-primary);
-  box-shadow: 0 4px 20px rgba(0, 242, 254, 0.3);
+  color: #ffffff; /* Wit in plaats van de donkere achtergrondkleur voor maximaal contrast */
+  box-shadow: 0 4px 20px rgba(0, 97, 255, 0.2);
 }
 
 .logo-text {
@@ -146,9 +146,9 @@ header {
 }
 
 .mode-badge.demo {
-  border-color: rgba(0, 242, 254, 0.3);
+  border-color: rgba(0, 97, 255, 0.3);
   color: var(--color-primary);
-  box-shadow: 0 0 10px rgba(0, 242, 254, 0.1);
+  box-shadow: 0 0 10px rgba(0, 97, 255, 0.1);
 }
 
 /* State Screens */
@@ -167,9 +167,9 @@ header {
   border: 1px solid var(--card-border);
   border-radius: 24px;
   padding: 2.25rem;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  box-shadow: 0 10px 40px 0 rgba(11, 15, 25, 0.05), 0 1px 3px 0 rgba(11, 15, 25, 0.02);
   transition: var(--transition-smooth);
   position: relative;
   overflow: hidden;
@@ -182,7 +182,7 @@ header {
   left: 0;
   right: 0;
   height: 1px;
-  background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.15), transparent);
+  background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.4), transparent);
 }
 
 /* Welcome Screen */
@@ -265,7 +265,7 @@ header {
 
 .auth-option.active {
   border-color: var(--color-primary);
-  background: rgba(0, 242, 254, 0.03);
+  background: rgba(0, 97, 255, 0.03);
 }
 
 .auth-title {
@@ -302,7 +302,7 @@ label {
 
 input[type="text"] {
   width: 100%;
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(255, 255, 255, 0.85);
   border: 1px solid var(--card-border);
   padding: 0.85rem 1.25rem;
   border-radius: 12px;
@@ -315,7 +315,7 @@ input[type="text"] {
 input[type="text"]:focus {
   outline: none;
   border-color: var(--color-primary);
-  box-shadow: 0 0 15px rgba(0, 242, 254, 0.15);
+  box-shadow: 0 0 15px rgba(0, 97, 255, 0.15);
 }
 
 /* Buttons */
@@ -364,14 +364,14 @@ input[type="text"]:focus {
 
 .btn-primary {
   background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
-  color: var(--bg-primary);
+  color: #ffffff; /* Contrastkleur wit */
   border: none;
   font-weight: 700;
-  box-shadow: 0 4px 20px rgba(0, 242, 254, 0.25);
+  box-shadow: 0 4px 20px rgba(0, 97, 255, 0.2);
 }
 
 .btn-primary:hover {
-  box-shadow: 0 6px 25px rgba(0, 242, 254, 0.4);
+  box-shadow: 0 6px 25px rgba(0, 97, 255, 0.35);
 }
 
 .btn-block {
@@ -426,8 +426,8 @@ input[type="text"]:focus {
   align-items: center;
   justify-content: center;
   font-size: 2.25rem;
-  color: var(--bg-primary);
-  box-shadow: 0 0 30px rgba(0, 242, 254, 0.4);
+  color: #ffffff; /* Wit in plaats van donkerblauw */
+  box-shadow: 0 0 30px rgba(0, 97, 255, 0.3);
   z-index: 2;
   animation: rotateGlow 8s linear infinite;
 }
@@ -463,7 +463,7 @@ input[type="text"]:focus {
 }
 
 .scanning-feed-box {
-  background: rgba(0, 0, 0, 0.25);
+  background: rgba(0, 0, 0, 0.025);
   border: 1px solid var(--card-border);
   padding: 1.25rem;
   border-radius: 16px;
@@ -548,7 +548,7 @@ input[type="text"]:focus {
   font-size: 1.25rem;
 }
 
-.stat-card:nth-child(1) .stat-icon { background: rgba(0, 242, 254, 0.1); color: var(--color-primary); }
+.stat-card:nth-child(1) .stat-icon { background: rgba(0, 97, 255, 0.1); color: var(--color-primary); }
 .stat-card:nth-child(2) .stat-icon { background: rgba(127, 0, 255, 0.1); color: var(--color-secondary); }
 .stat-card:nth-child(3) .stat-icon { background: rgba(76, 175, 80, 0.1); color: var(--success); }
 .stat-card:nth-child(4) .stat-icon { background: rgba(255, 107, 107, 0.1); color: var(--color-accent); }
@@ -604,7 +604,7 @@ input[type="text"]:focus {
 
 .filter-tabs {
   display: flex;
-  background: rgba(0, 0, 0, 0.25);
+  background: rgba(0, 0, 0, 0.035);
   border: 1px solid var(--card-border);
   padding: 0.25rem;
   border-radius: 12px;
@@ -623,8 +623,9 @@ input[type="text"]:focus {
 }
 
 .filter-tab.active {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.95);
   color: var(--text-primary);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
 /* Newsletter List items */
@@ -661,7 +662,7 @@ input[type="text"]:focus {
   align-items: center;
   justify-content: space-between;
   padding: 1.25rem;
-  background: rgba(255, 255, 255, 0.02);
+  background: rgba(255, 255, 255, 0.3);
   border: 1px solid var(--card-border);
   border-radius: 16px;
   transition: var(--transition-smooth);
@@ -669,8 +670,8 @@ input[type="text"]:focus {
 }
 
 .newsletter-item:hover {
-  border-color: rgba(255, 255, 255, 0.12);
-  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(0, 0, 0, 0.15);
+  background: rgba(255, 255, 255, 0.65);
 }
 
 .newsletter-info {
@@ -720,9 +721,9 @@ input[type="text"]:focus {
 }
 
 .tag-freq {
-  background: rgba(0, 242, 254, 0.08);
+  background: rgba(0, 97, 255, 0.08);
   color: var(--color-primary);
-  border: 1px solid rgba(0, 242, 254, 0.15);
+  border: 1px solid rgba(0, 97, 255, 0.15);
 }
 
 .tag-score {
@@ -745,8 +746,8 @@ input[type="text"]:focus {
 }
 
 .btn-unsub {
-  background: linear-gradient(135deg, rgba(0, 242, 254, 0.1), rgba(127, 0, 255, 0.1));
-  border: 1px solid rgba(0, 242, 254, 0.2);
+  background: linear-gradient(135deg, rgba(0, 97, 255, 0.08), rgba(127, 0, 255, 0.08));
+  border: 1px solid rgba(0, 97, 255, 0.15);
   color: var(--color-primary);
   font-size: 0.85rem;
   padding: 0.5rem 1rem;
@@ -764,7 +765,7 @@ input[type="text"]:focus {
   color: var(--bg-primary);
   border-color: transparent;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 242, 254, 0.25);
+  box-shadow: 0 4px 12px rgba(0, 97, 255, 0.2);
 }
 
 .newsletter-item.unsubscribed {
@@ -790,8 +791,8 @@ input[type="text"]:focus {
 }
 
 .quick-clean-box {
-  background: linear-gradient(135deg, rgba(127, 0, 255, 0.08) 0%, rgba(0, 242, 254, 0.08) 100%);
-  border: 1px solid rgba(0, 242, 254, 0.15);
+  background: linear-gradient(135deg, rgba(127, 0, 255, 0.08) 0%, rgba(0, 97, 255, 0.08) 100%);
+  border: 1px solid rgba(0, 97, 255, 0.15);
   border-radius: 20px;
   padding: 1.75rem;
   text-align: center;
@@ -869,9 +870,9 @@ input[type="text"]:focus {
 }
 
 @keyframes rotateGlow {
-  0% { transform: rotate(0deg); box-shadow: 0 0 25px rgba(0, 242, 254, 0.3); }
-  50% { box-shadow: 0 0 45px rgba(127, 0, 255, 0.5); }
-  100% { transform: rotate(360deg); box-shadow: 0 0 25px rgba(0, 242, 254, 0.3); }
+  0% { transform: rotate(0deg); box-shadow: 0 0 25px rgba(0, 97, 255, 0.25); }
+  50% { box-shadow: 0 0 45px rgba(127, 0, 255, 0.45); }
+  100% { transform: rotate(360deg); box-shadow: 0 0 25px rgba(0, 97, 255, 0.25); }
 }
 
 @keyframes feedSlide {

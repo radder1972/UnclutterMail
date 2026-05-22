@@ -177,7 +177,8 @@ export function renderNewsletterList(newsletters, activeFilter = 'all', onUnsubs
     if (item.emailsScanned > 1) {
       const countTag = document.createElement('span');
       countTag.className = 'tag';
-      countTag.style.background = 'rgba(255,255,255,0.05)';
+      countTag.style.background = 'rgba(0, 0, 0, 0.05)';
+      countTag.style.color = 'var(--text-secondary)';
       countTag.textContent = `${item.emailsScanned} mails`;
       tagsDiv.appendChild(countTag);
     }
@@ -248,7 +249,7 @@ export function showConfetti() {
 
   container.style.display = 'block';
   
-  const colors = ['#00f2fe', '#4facfe', '#7f00ff', '#ff6b6b', '#81c784'];
+  const colors = ['#0061ff', '#4facfe', '#7f00ff', '#ff6b6b', '#81c784'];
   const symbols = ['🎉', '✨', '✓', '⭐', '🎈'];
 
   for (let i = 0; i < 40; i++) {
