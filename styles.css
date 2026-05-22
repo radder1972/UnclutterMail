@@ -4,26 +4,26 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap');
 
 :root {
-  /* HSL Color Palette - Pristine Light Mode */
-  --bg-primary: hsl(150, 25%, 98%);
-  --bg-secondary: hsl(150, 18%, 94%);
-  --card-bg: rgba(255, 255, 255, 0.75);
-  --card-border: rgba(0, 0, 0, 0.08);
-  --card-glow: rgba(0, 178, 161, 0.02);
+  /* HSL Color Palette - Obsidian Dark Mode */
+  --bg-primary: hsl(165, 30%, 6%);
+  --bg-secondary: hsl(165, 25%, 10%);
+  --card-bg: rgba(20, 28, 26, 0.65);
+  --card-border: rgba(255, 255, 255, 0.08);
+  --card-glow: rgba(0, 178, 161, 0.04);
   
-  --color-primary: hsl(174, 100%, 35%);      /* Premium Fresh Teal */
+  --color-primary: hsl(174, 100%, 40%);      /* Premium Fresh Teal */
   --color-primary-rgb: 0, 178, 161;
-  --color-secondary: hsl(138, 65%, 42%);    /* Fresh Leaf Green */
+  --color-secondary: hsl(138, 65%, 46%);    /* Fresh Leaf Green */
   --color-secondary-rgb: 37, 177, 85;
-  --color-accent: hsl(158, 80%, 40%);       /* Vibrant Emerald */
+  --color-accent: hsl(158, 85%, 45%);       /* Vibrant Emerald */
   
-  --text-primary: hsl(165, 45%, 12%);
-  --text-secondary: hsl(165, 20%, 36%);
-  --text-muted: hsl(165, 12%, 55%);
+  --text-primary: hsl(150, 20%, 96%);
+  --text-secondary: hsl(150, 12%, 80%);
+  --text-muted: hsl(165, 8%, 58%);
   
-  --success: hsl(138, 65%, 35%);
-  --warning: hsl(38, 92%, 40%);
-  --danger: hsl(350, 75%, 45%);
+  --success: hsl(138, 65%, 42%);
+  --warning: hsl(38, 92%, 50%);
+  --danger: hsl(350, 85%, 55%);
   
   --font-display: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -189,7 +189,7 @@ header {
   padding: 1.75rem;
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
-  box-shadow: 0 10px 40px 0 rgba(11, 15, 25, 0.05), 0 1px 3px 0 rgba(11, 15, 25, 0.02);
+  box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.45), 0 1px 3px 0 rgba(0, 0, 0, 0.25);
   transition: var(--transition-smooth);
   position: relative;
   overflow: hidden;
@@ -287,8 +287,8 @@ header {
 .auth-option.active {
   border-color: rgba(0, 178, 161, 0.2);
   border-left: 5px solid var(--color-primary);
-  background: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 8px 30px rgba(0, 178, 161, 0.08);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 30px rgba(0, 178, 161, 0.15);
   transform: translateY(-2px);
 }
 
@@ -328,7 +328,7 @@ label {
 
 input[type="text"], input[type="email"] {
   width: 100%;
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(0, 0, 0, 0.25);
   border: 1px solid var(--card-border);
   padding: 0.85rem 1.25rem;
   border-radius: 12px;
@@ -349,9 +349,9 @@ input[type="text"]:focus, input[type="email"]:focus {
   padding: 1.1rem 1.5rem;
   font-size: 1.15rem;
   border-radius: 14px;
-  border: 1.5px solid rgba(0, 178, 161, 0.12);
-  background: rgba(255, 255, 255, 0.95);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02), inset 0 2px 4px rgba(0, 0, 0, 0.01);
+  border: 1.5px solid rgba(0, 178, 161, 0.25);
+  background: rgba(0, 0, 0, 0.35);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15), inset 0 2px 4px rgba(0, 0, 0, 0.05);
   font-weight: 500;
   letter-spacing: 0.25px;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -359,8 +359,8 @@ input[type="text"]:focus, input[type="email"]:focus {
 
 #gmail-email-address:focus, #outlook-email-address:focus {
   border-color: var(--color-primary);
-  background: #ffffff;
-  box-shadow: 0 8px 20px rgba(0, 178, 161, 0.1), inset 0 2px 4px rgba(0, 0, 0, 0.01);
+  background: rgba(0, 0, 0, 0.55);
+  box-shadow: 0 8px 20px rgba(0, 178, 161, 0.2), inset 0 2px 4px rgba(0, 0, 0, 0.05);
   transform: translateY(-1px);
 }
 
@@ -509,7 +509,7 @@ input[type="text"]:focus, input[type="email"]:focus {
 }
 
 .scanning-feed-box {
-  background: rgba(0, 0, 0, 0.025);
+  background: rgba(255, 255, 255, 0.02);
   border: 1px solid var(--card-border);
   padding: 1.25rem;
   border-radius: 16px;
@@ -655,7 +655,7 @@ input[type="text"]:focus, input[type="email"]:focus {
 
 .filter-tabs {
   display: flex;
-  background: rgba(0, 0, 0, 0.035);
+  background: rgba(255, 255, 255, 0.04);
   border: 1px solid var(--card-border);
   padding: 0.2rem;
   border-radius: 12px;
@@ -677,9 +677,9 @@ input[type="text"]:focus, input[type="email"]:focus {
 }
 
 .filter-tab.active {
-  background: rgba(255, 255, 255, 0.95);
-  color: var(--text-primary);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  background: var(--color-primary);
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 178, 161, 0.2);
 }
 
 /* Newsletter List items */
@@ -698,7 +698,7 @@ input[type="text"]:focus, input[type="email"]:focus {
 }
 
 .newsletters-container::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.03);
+  background: rgba(255, 255, 255, 0.02);
   border-radius: 3px;
 }
 
@@ -717,7 +717,7 @@ input[type="text"]:focus, input[type="email"]:focus {
   align-items: stretch;
   gap: 0.85rem;
   padding: 1.25rem;
-  background: rgba(255, 255, 255, 0.45);
+  background: rgba(255, 255, 255, 0.03);
   border: 1px solid var(--card-border);
   border-radius: 18px;
   transition: var(--transition-bounce);
@@ -725,8 +725,8 @@ input[type="text"]:focus, input[type="email"]:focus {
 }
 
 .newsletter-item:hover {
-  border-color: rgba(0, 178, 161, 0.15);
-  background: #ffffff;
+  border-color: rgba(0, 178, 161, 0.25);
+  background: rgba(255, 255, 255, 0.06);
   transform: translateY(-1px);
 }
 
@@ -845,7 +845,7 @@ input[type="text"]:focus, input[type="email"]:focus {
   align-items: center;
   justify-content: center;
   border-radius: 14px;
-  background: rgba(0, 0, 0, 0.03);
+  background: rgba(255, 255, 255, 0.04);
   border: 1px solid var(--card-border);
   font-size: 1.15rem;
   flex-shrink: 0;
@@ -853,7 +853,7 @@ input[type="text"]:focus, input[type="email"]:focus {
 }
 
 .newsletter-actions .btn:hover {
-  background: rgba(0, 0, 0, 0.06);
+  background: rgba(255, 255, 255, 0.08);
   transform: translateY(-2px);
 }
 
