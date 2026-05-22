@@ -5,6 +5,8 @@ let msalInstance = null;
 let accessToken = null;
 let activeAccount = null;
 
+export const DEFAULT_OUTLOOK_CLIENT_ID = 'b3658514-a957-4148-8dfa-ce3db8255ee8'; // Standaard ingebouwde Microsoft Client-ID
+
 // Sla client ID op in localStorage zodat de gebruiker deze maar één keer hoeft in te voeren
 export function getSavedClientId() {
   return localStorage.getItem('unclutter_outlook_client_id') || '';
@@ -15,11 +17,11 @@ export function saveClientId(clientId) {
 }
 
 // Initialiseer MSAL Client
-export async function initOutlookClient(clientId, onTokenReceived, onError) {
+export async function initOutlookClient(clientId, onError) {
   try {
     if (typeof msal === 'undefined') {
       onError('Microsoft MSAL Browser SDK is niet geladen. Controleer je internetverbinding.');
-      return;
+      return false;
     }
 
     const msalConfig = {
@@ -53,21 +55,23 @@ export async function initOutlookClient(clientId, onTokenReceived, onError) {
           account: activeAccount
         });
         accessToken = tokenResponse.accessToken;
-        onTokenReceived(accessToken);
+        return true;
       } catch (err) {
         console.warn("Stilzwijgende token-aanvraag mislukt, gebruiker moet handmatig inloggen:", err);
+        return false;
       }
     }
+    return false;
   } catch (err) {
     onError(`Microsoft initialisatie fout: ${err.message}`);
+    return false;
   }
 }
 
 // Start het aanmeldproces (opent Microsoft popup)
-export async function requestOutlookAccess(onTokenReceived, onError) {
+export async function requestOutlookAccess() {
   if (!msalInstance) {
-    onError('Microsoft client is niet geïnitializeerd. Vul eerst een geldige Application Client-ID in.');
-    return;
+    throw new Error('Microsoft client is niet geïnitialiseerd.');
   }
 
   const loginRequest = {
@@ -75,16 +79,12 @@ export async function requestOutlookAccess(onTokenReceived, onError) {
     prompt: "select_account"
   };
 
-  try {
-    const loginResponse = await msalInstance.loginPopup(loginRequest);
-    msalInstance.setActiveAccount(loginResponse.account);
-    activeAccount = loginResponse.account;
-    accessToken = loginResponse.accessToken;
-    
-    onTokenReceived(accessToken);
-  } catch (err) {
-    onError(`Aanmelden bij Microsoft mislukt: ${err.message}`);
-  }
+  const loginResponse = await msalInstance.loginPopup(loginRequest);
+  msalInstance.setActiveAccount(loginResponse.account);
+  activeAccount = loginResponse.account;
+  accessToken = loginResponse.accessToken;
+  
+  return accessToken;
 }
 
 // Uitloggen / Ontkoppelen

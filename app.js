@@ -14,6 +14,9 @@ import {
   disconnectGmail, 
   getSavedClientId, 
   saveClientId, 
+  getSavedEmailAddress,
+  saveEmailAddress,
+  DEFAULT_GMAIL_CLIENT_ID,
   scanRealGmail, 
   unsubscribeRealGmail 
 } from './services/gmailService.js';
@@ -23,6 +26,7 @@ import {
   disconnectOutlook,
   getSavedClientId as getSavedOutlookClientId,
   saveClientId as saveOutlookClientId,
+  DEFAULT_OUTLOOK_CLIENT_ID,
   scanRealOutlook,
   cleanNewsletterOutlook
 } from './services/outlookService.js';
@@ -33,16 +37,18 @@ let state = {
   newsletters: [],
   activeFilter: 'all',
   clientId: '',
+  gmailEmailAddress: '',
   outlookClientId: ''
 };
 
 // Initialisatie als de DOM geladen is
 document.addEventListener('DOMContentLoaded', () => {
   setupModeSelection();
-  setupClientIdInput();
+  setupCredentialsInput();
   setupScanTriggers();
   setupFilterTabs();
   setupHeaderActions();
+  setupAdvancedToggle();
 });
 
 // 1. Instellen van de modus-selectie (Demo vs Gmail vs Outlook)
@@ -75,8 +81,8 @@ function setupModeSelection() {
       optOutlook.classList.remove('active');
       if (gmailSetupFields) {
         gmailSetupFields.style.display = 'block';
-        // Focus het input veld
-        const input = document.getElementById('gmail-client-id');
+        // Focus het Gmail-adres veld in plaats van Client-ID
+        const input = document.getElementById('gmail-email-address');
         if (input) input.focus();
       }
       if (outlookSetupFields) outlookSetupFields.style.display = 'none';
@@ -93,9 +99,6 @@ function setupModeSelection() {
       optGmail.classList.remove('active');
       if (outlookSetupFields) {
         outlookSetupFields.style.display = 'block';
-        // Focus het input veld
-        const input = document.getElementById('outlook-client-id');
-        if (input) input.focus();
       }
       if (gmailSetupFields) gmailSetupFields.style.display = 'none';
       
@@ -106,8 +109,8 @@ function setupModeSelection() {
   }
 }
 
-// 2. Client ID voorbereiden en opslaan
-function setupClientIdInput() {
+// 2. Client ID & Gmail Email voorbereiden en opslaan
+function setupCredentialsInput() {
   const gmailInput = document.getElementById('gmail-client-id');
   if (gmailInput) {
     // Laad opgeslagen ID
@@ -119,6 +122,20 @@ function setupClientIdInput() {
     gmailInput.addEventListener('input', (e) => {
       state.clientId = e.target.value.trim();
       saveClientId(state.clientId);
+    });
+  }
+
+  const gmailEmailInput = document.getElementById('gmail-email-address');
+  if (gmailEmailInput) {
+    // Laad opgeslagen Gmail-adres
+    const savedEmail = getSavedEmailAddress();
+    gmailEmailInput.value = savedEmail;
+    state.gmailEmailAddress = savedEmail;
+
+    // Sla op bij typen/focus verlies
+    gmailEmailInput.addEventListener('input', (e) => {
+      state.gmailEmailAddress = e.target.value.trim();
+      saveEmailAddress(state.gmailEmailAddress);
     });
   }
 
@@ -135,6 +152,30 @@ function setupClientIdInput() {
       saveOutlookClientId(state.outlookClientId);
     });
   }
+}
+
+// Event handler voor de discrete "Geavanceerde Instellingen" toggle
+function setupAdvancedToggle() {
+  const links = document.querySelectorAll('.advanced-settings-link');
+  links.forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.stopPropagation(); // Voorkom dat ouder auth-opties clicks vangen
+      
+      const targetId = link.getAttribute('data-target');
+      const targetDiv = document.getElementById(targetId);
+      const textSpan = link.querySelector('.toggle-text');
+      
+      if (targetDiv) {
+        if (targetDiv.style.display === 'none' || !targetDiv.style.display) {
+          targetDiv.style.display = 'block';
+          if (textSpan) textSpan.textContent = 'Verberg Geavanceerde Instellingen';
+        } else {
+          targetDiv.style.display = 'none';
+          if (textSpan) textSpan.textContent = 'Geavanceerde Instellingen';
+        }
+      }
+    });
+  });
 }
 
 // 3. Starten van de scan-processen
@@ -188,14 +229,16 @@ async function startScanning() {
     if (gmailInstructions) gmailInstructions.style.display = 'block';
     if (outlookInstructions) outlookInstructions.style.display = 'none';
     
-    if (!state.clientId) {
-      alert('Vul eerst een geldige Google OAuth Client-ID in om te koppelen met Gmail.');
+    if (!state.gmailEmailAddress) {
+      alert('Vul eerst jouw Gmail-adres in om te koppelen met Gmail.');
       return;
     }
 
+    const clientIdToUse = state.clientId || DEFAULT_GMAIL_CLIENT_ID;
+
     // Initialiseer en start Google flow
     initGoogleClient(
-      state.clientId, 
+      clientIdToUse, 
       // Callback bij succesvol token
       async (token) => {
         document.getElementById('btn-disconnect').style.display = 'inline-flex';
@@ -218,64 +261,53 @@ async function startScanning() {
       }
     );
 
-    // Vraag toegang aan (opent popup)
-    requestGmailAccess();
+    // Vraag toegang aan (opent popup met login hint)
+    requestGmailAccess(state.gmailEmailAddress);
   } else if (state.activeMode === 'outlook') {
     // Outlook Modus
     if (outlookInstructions) outlookInstructions.style.display = 'block';
     if (gmailInstructions) gmailInstructions.style.display = 'none';
     
-    if (!state.outlookClientId) {
-      alert('Vul eerst een geldige Microsoft Application Client-ID in om te koppelen met Outlook.');
-      return;
+    const outlookClientIdToUse = state.outlookClientId || DEFAULT_OUTLOOK_CLIENT_ID;
+
+    try {
+      // 1. Initialiseer en probeer stille aanmelding te herstellen
+      const hasSession = await initOutlookClient(
+        outlookClientIdToUse,
+        (errMsg) => {
+          console.warn("MSAL silent init warning/error:", errMsg);
+        }
+      );
+
+      let tokenReceived = false;
+
+      if (hasSession) {
+        // We hebben stilzwijgend al een token gekregen
+        tokenReceived = true;
+      } else {
+        // Geen actieve sessie, start interactieve popup
+        await requestOutlookAccess();
+        tokenReceived = true;
+      }
+
+      if (tokenReceived) {
+        document.getElementById('btn-disconnect').style.display = 'inline-flex';
+        showScreen('screen-scanner');
+        
+        try {
+          const results = await scanRealOutlook((progress) => {
+            updateScannerUI(progress);
+          });
+          
+          state.newsletters = results;
+          finishScanning();
+        } catch (err) {
+          handleScanError(err);
+        }
+      }
+    } catch (err) {
+      handleScanError(err);
     }
-
-    // Initialiseer en start Microsoft flow
-    await initOutlookClient(
-      state.outlookClientId,
-      // Callback bij stilzwijgend token succes (direct scannen)
-      async (token) => {
-        document.getElementById('btn-disconnect').style.display = 'inline-flex';
-        showScreen('screen-scanner');
-        
-        try {
-          const results = await scanRealOutlook((progress) => {
-            updateScannerUI(progress);
-          });
-          
-          state.newsletters = results;
-          finishScanning();
-        } catch (err) {
-          handleScanError(err);
-        }
-      },
-      // Callback bij fout
-      (errMsg) => {
-        console.warn("MSAL silent init warning/error:", errMsg);
-      }
-    );
-
-    // Open popup voor authenticatie
-    await requestOutlookAccess(
-      async (token) => {
-        document.getElementById('btn-disconnect').style.display = 'inline-flex';
-        showScreen('screen-scanner');
-        
-        try {
-          const results = await scanRealOutlook((progress) => {
-            updateScannerUI(progress);
-          });
-          
-          state.newsletters = results;
-          finishScanning();
-        } catch (err) {
-          handleScanError(err);
-        }
-      },
-      (errMsg) => {
-        handleScanError(errMsg);
-      }
-    );
   }
 }
 

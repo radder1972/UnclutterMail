@@ -37,6 +37,8 @@ function ensureGapiLoaded() {
   });
 }
 
+export const DEFAULT_GMAIL_CLIENT_ID = '905187766322-gq95sk0n0kdtjcf3a90q10e5pfe8mde5.apps.googleusercontent.com'; // Standaard ingebouwde Gmail Client-ID
+
 // Sla client ID op in localStorage zodat de gebruiker deze maar één keer hoeft in te voeren
 export function getSavedClientId() {
   return localStorage.getItem('unclutter_gmail_client_id') || '';
@@ -44,6 +46,15 @@ export function getSavedClientId() {
 
 export function saveClientId(clientId) {
   localStorage.setItem('unclutter_gmail_client_id', clientId);
+}
+
+// Sla Gmail-adres op in localStorage zodat de gebruiker deze maar één keer hoeft in te voeren
+export function getSavedEmailAddress() {
+  return localStorage.getItem('unclutter_gmail_email_address') || '';
+}
+
+export function saveEmailAddress(email) {
+  localStorage.setItem('unclutter_gmail_email_address', email);
 }
 
 // Initialiseer Google Identity Services en GAPI
@@ -82,12 +93,16 @@ export async function initGoogleClient(clientId, onTokenReceived, onError) {
 }
 
 // Start het aanmeldproces (opent Google popup)
-export function requestGmailAccess() {
+export function requestGmailAccess(loginHint) {
   if (!tokenClient) {
-    throw new Error('Google client is niet geïnitialiseerd. Vul eerst een geldige Client-ID in.');
+    throw new Error('Google client is niet geïnitialiseerd.');
   }
   // Vraag een nieuw token aan (of hergebruik)
-  tokenClient.requestAccessToken({ prompt: 'consent' });
+  const options = { prompt: 'consent' };
+  if (loginHint) {
+    options.login_hint = loginHint;
+  }
+  tokenClient.requestAccessToken(options);
 }
 
 // Uitloggen
