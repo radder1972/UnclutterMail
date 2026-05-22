@@ -358,6 +358,18 @@ function handleScanError(err) {
 }
 
 function finishScanning() {
+  // Update actieve e-mailweergave boven de lijst
+  const emailDisplay = document.getElementById('active-email-display');
+  if (emailDisplay) {
+    if (state.activeMode === 'demo') {
+      emailDisplay.textContent = '✨ Demo Modus (gesimuleerde inbox)';
+    } else if (state.activeMode === 'gmail') {
+      emailDisplay.textContent = `📧 Gmail: ${state.gmailEmailAddress}`;
+    } else if (state.activeMode === 'outlook') {
+      emailDisplay.textContent = `Ⓜ️ Outlook: ${state.outlookEmailAddress}`;
+    }
+  }
+
   // Update stats
   updateStatsUI(state.newsletters);
   
