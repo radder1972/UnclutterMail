@@ -111,6 +111,20 @@ header {
   box-shadow: 0 4px 20px rgba(0, 97, 255, 0.2);
 }
 
+.logo-icon-img {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(0, 97, 255, 0.16);
+  object-fit: cover;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.logo-container:hover .logo-icon-img {
+  transform: scale(1.08) rotate(2deg);
+  box-shadow: 0 8px 24px rgba(0, 97, 255, 0.25);
+}
+
 .logo-text {
   font-family: var(--font-display);
   font-size: 1.75rem;
