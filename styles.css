@@ -306,7 +306,7 @@ label {
   position: relative;
 }
 
-input[type="text"] {
+input[type="text"], input[type="email"] {
   width: 100%;
   background: rgba(255, 255, 255, 0.85);
   border: 1px solid var(--card-border);
@@ -318,10 +318,30 @@ input[type="text"] {
   transition: var(--transition-smooth);
 }
 
-input[type="text"]:focus {
+input[type="text"]:focus, input[type="email"]:focus {
   outline: none;
   border-color: var(--color-primary);
   box-shadow: 0 0 15px rgba(0, 97, 255, 0.15);
+}
+
+/* Specifieke styling voor het e-mailinvoerveld om deze groter en uiterst netjes te maken */
+#gmail-email-address {
+  padding: 1.1rem 1.5rem;
+  font-size: 1.15rem;
+  border-radius: 14px;
+  border: 1.5px solid rgba(0, 97, 255, 0.12);
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02), inset 0 2px 4px rgba(0, 0, 0, 0.01);
+  font-weight: 500;
+  letter-spacing: 0.25px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#gmail-email-address:focus {
+  border-color: var(--color-primary);
+  background: #ffffff;
+  box-shadow: 0 8px 20px rgba(0, 97, 255, 0.1), inset 0 2px 4px rgba(0, 0, 0, 0.01);
+  transform: translateY(-1px);
 }
 
 /* Buttons */

@@ -37,7 +37,7 @@ function ensureGapiLoaded() {
   });
 }
 
-export const DEFAULT_GMAIL_CLIENT_ID = '905187766322-gq95sk0n0kdtjcf3a90q10e5pfe8mde5.apps.googleusercontent.com'; // Standaard ingebouwde Gmail Client-ID
+export const DEFAULT_GMAIL_CLIENT_ID = '182809559758-8j8mkt4je0gmo13903ek711ag15p7ist.apps.googleusercontent.com'; // Standaard ingebouwde Gmail Client-ID
 
 // Sla client ID op in localStorage zodat de gebruiker deze maar één keer hoeft in te voeren
 export function getSavedClientId() {
