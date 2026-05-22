@@ -13,6 +13,16 @@ export function showScreen(screenId) {
     // Scroll naar boven bij schermwissel
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
+
+  // Condioneel tonen/verbergen van de header op mobiel
+  const header = document.querySelector('header');
+  if (header) {
+    if (screenId === 'screen-welcome') {
+      header.style.display = 'none';
+    } else {
+      header.style.display = 'flex';
+    }
+  }
 }
 
 // Update de scanner-interface live tijdens het scannen
@@ -228,8 +238,6 @@ export function renderNewsletterList(newsletters, activeFilter = 'all', onUnsubs
         linkBtn.href = item.unsubscribeUrl;
         linkBtn.target = '_blank';
         linkBtn.className = 'btn';
-        linkBtn.style.padding = '0.5rem';
-        linkBtn.style.borderRadius = '10px';
         linkBtn.title = "Open originele uitschrijflink in nieuw tabblad";
         linkBtn.innerHTML = '🔗';
         actionsDiv.appendChild(linkBtn);

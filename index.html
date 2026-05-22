@@ -21,7 +21,7 @@
   <div class="app-container">
     
     <!-- Hoofd Header -->
-    <header>
+    <header style="display: none;">
       <div class="logo-container">
         <img src="logo.png" alt="UnclutterMail Logo" class="logo-icon-img">
         <div class="logo-text">Unclutter<span>Mail</span></div>
@@ -40,8 +40,12 @@
       
       <!-- 1. WELKOM / CONNECTIE SCHERM -->
       <section id="screen-welcome" class="screen active">
-        <div class="glass-card welcome-grid">
-          
+        <div class="logo-hero-container">
+          <img src="logo.png" alt="UnclutterMail Logo" class="logo-hero-img">
+          <div class="logo-hero-text">Unclutter<span>Mail</span></div>
+        </div>
+
+        <div class="glass-card welcome-card">
           <div class="welcome-info">
             <h1>Houd je inbox schoon en stressvrij.</h1>
             <p>
@@ -63,7 +67,7 @@
                 <div class="auth-desc" style="margin-bottom: 1rem;">
                   Verbind veilig met je eigen Gmail-account via de officiële Google API en ruim je echte mailbox direct op.
                 </div>
-                   <div id="gmail-setup-fields" style="display: none; animation: fadeIn 0.3s ease-out;">
+                <div id="gmail-setup-fields" style="display: none; animation: fadeIn 0.3s ease-out;">
                   <div class="form-group" style="margin-bottom: 1rem;">
                     <label for="gmail-email-address">Jouw Gmail-adres</label>
                     <div class="input-wrapper">
@@ -155,15 +159,6 @@
               </div>
             </div>
           </div>
-
-          <!-- RECHTS: BEAUTIFUL ART -->
-          <div class="welcome-hero-art">
-            <div class="hero-art-container">
-              <div class="art-orb"></div>
-              <div class="art-envelope">✉</div>
-            </div>
-          </div>
-
         </div>
       </section>
 

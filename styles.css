@@ -76,9 +76,9 @@ body::after {
 
 /* Layout */
 .app-container {
-  max-width: 1280px;
+  max-width: 480px;
   margin: 0 auto;
-  padding: 2rem 1.5rem;
+  padding: 1.5rem 1rem;
 }
 
 /* Header Component */
@@ -86,8 +86,8 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 3rem;
-  padding-bottom: 1.5rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1.25rem;
   border-bottom: 1px solid var(--card-border);
 }
 
@@ -186,7 +186,7 @@ header {
   background: var(--card-bg);
   border: 1px solid var(--card-border);
   border-radius: 24px;
-  padding: 2.25rem;
+  padding: 1.75rem;
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   box-shadow: 0 10px 40px 0 rgba(11, 15, 25, 0.05), 0 1px 3px 0 rgba(11, 15, 25, 0.02);
@@ -206,99 +206,105 @@ header {
 }
 
 /* Welcome Screen */
-.welcome-grid {
-  display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
-  gap: 2.5rem;
+.logo-hero-container {
+  display: flex;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.logo-hero-img {
+  width: 140px;
+  height: 140px;
+  object-fit: contain;
+  margin-bottom: 0.75rem;
+  filter: drop-shadow(0 10px 20px rgba(0, 97, 255, 0.1));
+  animation: float 6s ease-in-out infinite alternate;
+}
+
+.logo-hero-text {
+  font-family: var(--font-display);
+  font-size: 2.25rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  background: linear-gradient(to right, var(--text-primary), var(--text-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.logo-hero-text span {
+  background: linear-gradient(to right, var(--color-primary), var(--color-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.welcome-card {
+  padding: 1.75rem;
+  border-radius: 24px;
 }
 
 .welcome-info h1 {
   font-family: var(--font-display);
-  font-size: 3.5rem;
+  font-size: 1.85rem;
   font-weight: 800;
-  line-height: 1.15;
-  margin-bottom: 1.5rem;
-  letter-spacing: -1px;
+  line-height: 1.25;
+  margin-bottom: 1rem;
+  letter-spacing: -0.5px;
 }
 
 .welcome-info p {
   color: var(--text-secondary);
-  font-size: 1.15rem;
-  margin-bottom: 2.5rem;
-  max-width: 540px;
-}
-
-.welcome-hero-art {
-  display: flex;
-  justify-content: center;
-  position: relative;
-}
-
-.hero-art-container {
-  width: 280px;
-  height: 280px;
-  position: relative;
-}
-
-.art-orb {
-  position: absolute;
-  top: 10%;
-  left: 10%;
-  width: 80%;
-  height: 80%;
-  border-radius: 50%;
-  background: linear-gradient(45deg, var(--color-secondary), var(--color-primary));
-  filter: blur(10px);
-  animation: float 6s ease-in-out infinite alternate;
-  opacity: 0.6;
-}
-
-.art-envelope {
-  position: absolute;
-  top: 25%;
-  left: 25%;
-  width: 50%;
-  height: 50%;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(10px);
-  border-radius: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 4rem;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-  animation: float 6s ease-in-out infinite alternate-reverse;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
 }
 
 .options-panel {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.25rem;
 }
 
 .auth-option {
-  border-left: 4px solid var(--text-muted);
-  transition: var(--transition-smooth);
+  border: 1px solid var(--card-border);
+  border-left: 5px solid var(--text-muted);
+  border-radius: 18px;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: var(--transition-bounce);
+  background: var(--card-bg);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+}
+
+.auth-option:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.04);
 }
 
 .auth-option.active {
-  border-color: var(--color-primary);
-  background: rgba(0, 97, 255, 0.03);
+  border-color: rgba(0, 97, 255, 0.2);
+  border-left: 5px solid var(--color-primary);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 8px 30px rgba(0, 97, 255, 0.08);
+  transform: translateY(-2px);
 }
 
 .auth-title {
   font-family: var(--font-display);
-  font-size: 1.35rem;
+  font-size: 1.15rem;
   font-weight: 700;
   margin-bottom: 0.5rem;
+  color: var(--text-primary);
 }
 
 .auth-desc {
   color: var(--text-secondary);
-  font-size: 0.95rem;
-  margin-bottom: 1.25rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: 0.5rem;
 }
 
 /* Inputs & Forms */
@@ -550,42 +556,43 @@ input[type="text"]:focus, input[type="email"]:focus {
 
 /* Dashboard Screen */
 .dashboard-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
 /* Stats Row */
 .stats-row {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
 }
 
 .stat-card {
-  padding: 1.75rem;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-height: 150px;
+  min-height: 120px;
+  border-radius: 20px;
 }
 
 .stat-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .stat-icon {
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
   background: rgba(255, 255, 255, 0.05);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.25rem;
+  font-size: 1rem;
 }
 
 .stat-card:nth-child(1) .stat-icon { background: rgba(0, 97, 255, 0.1); color: var(--color-primary); }
@@ -595,57 +602,50 @@ input[type="text"]:focus, input[type="email"]:focus {
 
 .stat-value {
   font-family: var(--font-display);
-  font-size: 2.25rem;
+  font-size: 1.6rem;
   font-weight: 800;
   line-height: 1.2;
+  margin-bottom: 0.15rem;
 }
 
 .stat-label {
   color: var(--text-secondary);
-  font-size: 0.9rem;
+  font-size: 0.75rem;
+  line-height: 1.3;
 }
 
 /* Inbox Actions Layout */
 .inbox-layout {
-  display: grid;
-  grid-template-columns: 1.8fr 1.2fr;
-  gap: 2.5rem;
-}
-
-@media (max-width: 1024px) {
-  .inbox-layout {
-    grid-template-columns: 1fr;
-  }
-  .welcome-grid {
-    grid-template-columns: 1fr;
-  }
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
 /* Newsletter List Panel */
 .newsletter-list-panel {
   display: flex;
   flex-direction: column;
+  padding: 1.25rem !important;
 }
 
 .panel-header {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2rem;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: stretch;
+  margin-bottom: 1.5rem;
   gap: 1rem;
 }
 
 .panel-title {
   font-family: var(--font-display);
-  font-size: 1.5rem;
+  font-size: 1.35rem;
   font-weight: 700;
 }
 
 .active-email-display {
-  font-size: 0.88rem;
+  font-size: 0.85rem;
   color: var(--text-secondary);
-  margin-top: 0.35rem;
+  margin-top: 0.15rem;
   font-weight: 500;
   display: flex;
   align-items: center;
@@ -657,20 +657,23 @@ input[type="text"]:focus, input[type="email"]:focus {
   display: flex;
   background: rgba(0, 0, 0, 0.035);
   border: 1px solid var(--card-border);
-  padding: 0.25rem;
+  padding: 0.2rem;
   border-radius: 12px;
+  width: 100%;
 }
 
 .filter-tab {
+  flex: 1;
   background: transparent;
   border: none;
   color: var(--text-muted);
-  padding: 0.5rem 1rem;
-  border-radius: 10px;
-  font-size: 0.85rem;
+  padding: 0.5rem 0.25rem;
+  border-radius: 9px;
+  font-size: 0.8rem;
   font-weight: 600;
   cursor: pointer;
   transition: var(--transition-smooth);
+  text-align: center;
 }
 
 .filter-tab.active {
@@ -684,67 +687,72 @@ input[type="text"]:focus, input[type="email"]:focus {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  max-height: 600px;
+  max-height: 550px;
   overflow-y: auto;
-  padding-right: 0.5rem;
+  padding-right: 0.25rem;
 }
 
 /* Custom Scrollbar */
 .newsletters-container::-webkit-scrollbar {
-  width: 6px;
+  width: 5px;
 }
 
 .newsletters-container::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.15);
+  background: rgba(0, 0, 0, 0.03);
   border-radius: 3px;
 }
 
 .newsletters-container::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(0, 97, 255, 0.1);
   border-radius: 3px;
 }
 
 .newsletters-container::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(0, 97, 255, 0.2);
 }
 
 .newsletter-item {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.85rem;
   padding: 1.25rem;
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.45);
   border: 1px solid var(--card-border);
-  border-radius: 16px;
-  transition: var(--transition-smooth);
+  border-radius: 18px;
+  transition: var(--transition-bounce);
   animation: slideInUp 0.3s ease-out forwards;
 }
 
 .newsletter-item:hover {
-  border-color: rgba(0, 0, 0, 0.15);
-  background: rgba(255, 255, 255, 0.65);
+  border-color: rgba(0, 97, 255, 0.15);
+  background: #ffffff;
+  transform: translateY(-1px);
 }
 
 .newsletter-info {
-  flex: 1;
+  flex: none;
   min-width: 0;
-  padding-right: 1.5rem;
+  padding-right: 0;
 }
 
 .newsletter-sender-row {
   display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 0.25rem;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.15rem;
+  margin-bottom: 0.35rem;
 }
 
 .newsletter-sender {
   font-family: var(--font-display);
-  font-size: 1.1rem;
-  font-weight: 600;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-primary);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  max-width: 100%;
 }
 
 .newsletter-email {
@@ -753,21 +761,25 @@ input[type="text"]:focus, input[type="email"]:focus {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  max-width: 100%;
 }
 
 .newsletter-subject {
   color: var(--text-secondary);
   font-size: 0.85rem;
-  white-space: nowrap;
+  line-height: 1.4;
+  white-space: normal;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .tag {
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   font-weight: 700;
-  padding: 0.2rem 0.5rem;
-  border-radius: 6px;
+  padding: 0.25rem 0.6rem;
+  border-radius: 8px;
   text-transform: uppercase;
 }
 
@@ -793,30 +805,56 @@ input[type="text"]:focus, input[type="email"]:focus {
 .newsletter-actions {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.5rem;
+  width: 100%;
+  margin-top: 0.25rem;
 }
 
 .btn-unsub {
-  background: linear-gradient(135deg, rgba(0, 97, 255, 0.08), rgba(127, 0, 255, 0.08));
-  border: 1px solid rgba(0, 97, 255, 0.15);
-  color: var(--color-primary);
-  font-size: 0.85rem;
-  padding: 0.5rem 1rem;
-  border-radius: 10px;
+  flex: 1;
+  height: 52px;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  color: #ffffff;
+  border: none;
+  font-size: 0.95rem;
+  font-weight: 700;
+  border-radius: 14px;
   cursor: pointer;
-  font-weight: 600;
-  transition: var(--transition-bounce);
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0, 97, 255, 0.12);
+  transition: var(--transition-bounce);
 }
 
 .btn-unsub:hover {
-  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
-  color: var(--bg-primary);
-  border-color: transparent;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 97, 255, 0.2);
+  box-shadow: 0 6px 18px rgba(0, 97, 255, 0.22);
+}
+
+.btn-unsub:active {
+  transform: translateY(0);
+}
+
+.newsletter-actions .btn {
+  width: 52px;
+  height: 52px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  background: rgba(0, 0, 0, 0.03);
+  border: 1px solid var(--card-border);
+  font-size: 1.15rem;
+  flex-shrink: 0;
+  transition: var(--transition-bounce);
+}
+
+.newsletter-actions .btn:hover {
+  background: rgba(0, 0, 0, 0.06);
+  transform: translateY(-2px);
 }
 
 .newsletter-item.unsubscribed {
@@ -826,12 +864,18 @@ input[type="text"]:focus, input[type="email"]:focus {
 }
 
 .unsubscribed-check {
-  color: var(--success);
-  font-weight: 700;
+  width: 100%;
+  height: 52px;
   display: flex;
   align-items: center;
-  gap: 0.35rem;
-  font-size: 0.9rem;
+  justify-content: center;
+  background: rgba(76, 175, 80, 0.08);
+  border: 1px solid rgba(76, 175, 80, 0.2);
+  border-radius: 14px;
+  color: var(--success);
+  font-weight: 700;
+  font-size: 0.95rem;
+  gap: 0.5rem;
 }
 
 /* Cleaning Center Panel */
