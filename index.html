@@ -118,6 +118,36 @@
                         Vul in als je je eigen Azure App Registratie wilt koppelen.
                       </p>
                     </div>
+
+                    <!-- Interactieve Hulp bij 'unauthorized_client' -->
+                    <div id="outlook-error-guide-toggle" style="font-size: 0.8rem; color: var(--color-primary); cursor: pointer; display: inline-flex; align-items: center; gap: 0.25rem; font-weight: 500; margin-bottom: 1rem; transition: var(--transition-smooth);">
+                      <span>⚠️</span> <span class="toggle-guide-text">Hulp bij 'unauthorized_client' fout</span>
+                    </div>
+
+                    <div id="outlook-error-guide-content" style="display: none; font-size: 0.8rem; background: rgba(0, 0, 0, 0.25); border: 1px solid rgba(255, 255, 255, 0.05); padding: 1rem; border-radius: 12px; margin-bottom: 1rem; color: var(--text-secondary); line-height: 1.5; animation: fadeIn 0.3s ease-out;">
+                      <p style="font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem;">Hoe los ik de 'unauthorized_client' fout op?</p>
+                      <p style="margin-bottom: 0.75rem;">
+                        Als je de melding krijgt dat de client niet bestaat of niet is ingeschakeld voor consumenten, ondersteunt je Azure App Registratie geen persoonlijke Microsoft-accounts. Volg deze stappen:
+                      </p>
+                      <ol style="padding-left: 1.15rem; display: flex; flex-direction: column; gap: 0.5rem;">
+                        <li>
+                          Ga naar de <a href="https://portal.azure.com" target="_blank" style="color: var(--color-primary); text-decoration: underline;">Azure Portal</a> &gt; <strong>App Registrations</strong>.
+                        </li>
+                        <li>
+                          Selecteer je applicatie en klik op <strong>Authentication</strong> in het menu links.
+                        </li>
+                        <li>
+                          Kies onder <strong>Supported account types</strong> voor:<br>
+                          <span style="color: var(--text-primary); font-weight: 500;">"Accounts in any organizational directory (Any Microsoft Entra ID tenant - Multitenant) and personal Microsoft accounts (e.g. Skype, Xbox)"</span>.
+                        </li>
+                        <li>
+                          Zorg dat onder de platform-configuratie voor <strong>Single-page application (SPA)</strong> de Redirect URI exact staat ingesteld op: <code>http://localhost:5000</code>.
+                        </li>
+                        <li>
+                          Kopieer de <strong>Application (client) ID</strong> en plak hem hierboven.
+                        </li>
+                      </ol>
+                    </div>
                   </div>
 
                   <div class="advanced-settings-link" data-target="outlook-advanced-fields" style="font-size: 0.8rem; color: var(--color-primary); cursor: pointer; display: inline-flex; align-items: center; gap: 0.25rem; font-weight: 500; margin-top: 0.5rem;">

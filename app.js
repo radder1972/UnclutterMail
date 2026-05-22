@@ -196,6 +196,23 @@ function setupAdvancedToggle() {
       }
     });
   });
+
+  // Hulp bij unauthorized_client toggle
+  const guideToggle = document.getElementById('outlook-error-guide-toggle');
+  const guideContent = document.getElementById('outlook-error-guide-content');
+  if (guideToggle && guideContent) {
+    guideToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const textSpan = guideToggle.querySelector('.toggle-guide-text');
+      if (guideContent.style.display === 'none' || !guideContent.style.display) {
+        guideContent.style.display = 'block';
+        if (textSpan) textSpan.textContent = 'Verberg hulp';
+      } else {
+        guideContent.style.display = 'none';
+        if (textSpan) textSpan.textContent = "Hulp bij 'unauthorized_client' fout";
+      }
+    });
+  }
 }
 
 // 3. Starten van de scan-processen
@@ -355,10 +372,13 @@ function handleScanError(err) {
 
     if (outlookTips) {
       if (
+        state.activeMode === 'outlook' ||
         errMsgLower.includes('unauthorized_client') || 
         errMsgLower.includes('not enabled for consumers') || 
         errMsgLower.includes('client does not exist') ||
-        errMsgLower.includes('invalid_client')
+        errMsgLower.includes('invalid_client') ||
+        errMsgLower.includes('user_cancelled') ||
+        errMsgLower.includes('cancelled')
       ) {
         outlookTips.style.display = 'block';
       } else {
