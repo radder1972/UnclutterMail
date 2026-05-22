@@ -142,34 +142,57 @@ header {
   -webkit-text-fill-color: transparent;
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
 .mode-badge {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--card-border);
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
-  font-size: 0.85rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 0.4rem 0.85rem;
+  border-radius: 30px;
+  font-size: 0.78rem;
   font-weight: 600;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.45rem;
+  letter-spacing: 0.25px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: var(--transition-smooth);
 }
 
 .mode-badge.gmail {
-  border-color: rgba(244, 67, 54, 0.3);
-  color: #ff6b6b;
-  box-shadow: 0 0 10px rgba(244, 67, 54, 0.1);
+  background: rgba(234, 67, 53, 0.05);
+  border-color: rgba(234, 67, 53, 0.2);
+  color: var(--danger);
+  box-shadow: 0 0 12px rgba(234, 67, 53, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.03);
 }
 
 .mode-badge.demo {
-  border-color: rgba(0, 178, 161, 0.3);
+  background: rgba(0, 178, 161, 0.05);
+  border-color: rgba(0, 178, 161, 0.2);
   color: var(--color-primary);
-  box-shadow: 0 0 10px rgba(0, 178, 161, 0.1);
+  box-shadow: 0 0 12px rgba(0, 178, 161, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.03);
 }
 
 .mode-badge.outlook {
-  border-color: rgba(0, 120, 212, 0.3);
-  color: #0078d4;
-  box-shadow: 0 0 10px rgba(0, 120, 212, 0.1);
+  background: rgba(0, 164, 239, 0.05);
+  border-color: rgba(0, 164, 239, 0.2);
+  color: hsl(205, 100%, 55%);
+  box-shadow: 0 0 12px rgba(0, 164, 239, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+.badge-dot {
+  font-size: 0.65rem;
+  animation: pulseDot 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulseDot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.9); }
 }
 
 /* State Screens */
@@ -292,11 +315,28 @@ header {
 }
 
 .auth-option.active {
-  border-color: rgba(0, 178, 161, 0.2);
-  border-left: 5px solid var(--color-primary);
-  background: rgba(255, 255, 255, 0.08);
-  box-shadow: 0 8px 30px rgba(0, 178, 161, 0.15);
   transform: translateY(-2px);
+}
+
+#opt-demo.active {
+  border-color: rgba(0, 178, 161, 0.25);
+  border-left: 5px solid var(--color-primary);
+  background: rgba(0, 178, 161, 0.05);
+  box-shadow: 0 8px 30px rgba(0, 178, 161, 0.12);
+}
+
+#opt-gmail.active {
+  border-color: rgba(234, 67, 53, 0.25);
+  border-left: 5px solid var(--danger);
+  background: rgba(234, 67, 53, 0.05);
+  box-shadow: 0 8px 30px rgba(234, 67, 53, 0.12);
+}
+
+#opt-outlook.active {
+  border-color: rgba(0, 164, 239, 0.25);
+  border-left: 5px solid hsl(205, 100%, 55%);
+  background: rgba(0, 164, 239, 0.05);
+  box-shadow: 0 8px 30px rgba(0, 164, 239, 0.12);
 }
 
 .auth-title {
@@ -437,13 +477,35 @@ select option {
 }
 
 .btn-disconnect {
-  background: rgba(244, 67, 54, 0.05);
-  border-color: rgba(244, 67, 54, 0.2);
-  color: #ff6b6b;
+  background: rgba(234, 67, 54, 0.05);
+  border: 1px solid rgba(234, 67, 54, 0.2);
+  color: hsl(350, 95%, 72%);
+  padding: 0.4rem 0.85rem;
+  font-size: 0.78rem;
+  border-radius: 30px;
+  font-weight: 600;
+  height: auto;
+  min-height: 0;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: var(--transition-bounce);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+.btn-disconnect::after {
+  display: none;
 }
 
 .btn-disconnect:hover {
-  background: rgba(244, 67, 54, 0.12);
+  background: rgba(234, 67, 54, 0.12);
+  border-color: rgba(234, 67, 54, 0.35);
+  color: hsl(350, 100%, 78%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(234, 67, 54, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.btn-disconnect:active {
+  transform: translateY(0);
 }
 
 /* Scanner Screen */
