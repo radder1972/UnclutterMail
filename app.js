@@ -53,6 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setupHeaderActions();
   setupAdvancedToggle();
   setupLogoNavigation();
+  setupDynamicRedirectURIs();
 });
 
 // 1. Instellen van de modus-selectie (Demo vs Gmail vs Outlook)
@@ -549,5 +550,14 @@ function setupLogoNavigation() {
       // Ga terug naar het startscherm / welkomscherm
       showScreen('screen-welcome');
     });
+  });
+}
+
+// 8. Dynamische Redirect URIs voor help/diagnostische schermen
+function setupDynamicRedirectURIs() {
+  const placeholders = document.querySelectorAll('.outlook-redirect-uri-placeholder');
+  const currentOrigin = window.location.origin;
+  placeholders.forEach(el => {
+    el.textContent = currentOrigin;
   });
 }

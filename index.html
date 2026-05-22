@@ -172,7 +172,7 @@
                           <span style="color: var(--text-primary); font-weight: 500;">"Accounts in any organizational directory (Any Microsoft Entra ID tenant - Multitenant) and personal Microsoft accounts (e.g. Skype, Xbox)"</span>.
                         </li>
                         <li>
-                          Zorg dat onder de platform-configuratie voor <strong>Single-page application (SPA)</strong> de Redirect URI exact staat ingesteld op: <code>http://localhost:5000</code>.
+                          Zorg dat onder de platform-configuratie voor <strong>Single-page application (SPA)</strong> de Redirect URI exact staat ingesteld op: <code><span class="outlook-redirect-uri-placeholder">http://localhost:5000</span></code>.
                         </li>
                         <li>
                           Kopieer de <strong>Application (client) ID</strong> en plak hem hierboven.
@@ -231,11 +231,11 @@
                       <li>Meld je aan op de <a href="https://portal.azure.com" target="_blank" style="color: var(--color-primary); text-decoration: underline;">Azure Portal</a> en ga naar <strong>App Registrations</strong>.</li>
                       <li>Kies jouw geregistreerde app en klik in het linkermenu op <strong>Authentication</strong>.</li>
                       <li>Scroll naar <strong>Supported account types</strong> en selecteer:<br><span style="color: var(--text-primary); font-weight: 500;">"Accounts in any organizational directory (Any Microsoft Entra ID tenant - Multitenant) and personal Microsoft accounts (e.g. Skype, Xbox)"</span>.</li>
-                      <li>Zorg er ook voor dat onder de <strong>Single-page application (SPA)</strong> platform-configuratie de Redirect URI exact staat ingesteld op <code>http://localhost:5000</code>.</li>
+                      <li>Zorg er ook voor dat onder de <strong>Single-page application (SPA)</strong> platform-configuratie de Redirect URI exact staat ingesteld op <code><span class="outlook-redirect-uri-placeholder">http://localhost:5000</span></code>.</li>
                     </ol>
                   </li>
                   <li>
-                    <strong>Standaard Client-ID proberen:</strong> Je kunt ook onder <strong>Geavanceerde Instellingen</strong> je eigen Client-ID leegmaken en opstarten om de standaard ingebouwde, werkende app-configuratie te gebruiken!
+                    <strong>Standaard Client-ID restrictie:</strong> De standaard ingebouwde Client-ID werkt om veiligheidsredenen alleen op het domein waarop de app is geconfigureerd. Omdat je deze app gebruikt via een eigen domein, is het verplicht om je eigen Client-ID aan te maken en de juiste Redirect URI in te stellen.
                   </li>
                 </ul>
               </div>
