@@ -1,0 +1,288 @@
+// Central Orchestration Controller - UnclutterMail
+import { 
+  showScreen, 
+  updateScannerUI, 
+  updateStatsUI, 
+  renderNewsletterList 
+} from './ui.js';
+import { 
+  scanMockEmails 
+} from './services/mockService.js';
+import { 
+  initGoogleClient, 
+  requestGmailAccess, 
+  disconnectGmail, 
+  getSavedClientId, 
+  saveClientId, 
+  scanRealGmail, 
+  unsubscribeRealGmail,
+  getExistingToken 
+} from './services/gmailService.js';
+
+// Application State
+let state = {
+  activeMode: 'demo', // 'demo' of 'gmail'
+  newsletters: [],
+  activeFilter: 'all',
+  clientId: ''
+};
+
+// Initialisatie als de DOM geladen is
+document.addEventListener('DOMContentLoaded', () => {
+  setupModeSelection();
+  setupClientIdInput();
+  setupScanTriggers();
+  setupFilterTabs();
+  setupHeaderActions();
+});
+
+// 1. Instellen van de modus-selectie (Demo vs Gmail)
+function setupModeSelection() {
+  const optDemo = document.getElementById('opt-demo');
+  const optGmail = document.getElementById('opt-gmail');
+  const gmailSetupFields = document.getElementById('gmail-setup-fields');
+  const badge = document.getElementById('active-mode-badge');
+
+  if (optDemo && optGmail) {
+    optDemo.addEventListener('click', () => {
+      state.activeMode = 'demo';
+      optDemo.classList.add('active');
+      optGmail.classList.remove('active');
+      if (gmailSetupFields) gmailSetupFields.style.display = 'none';
+      
+      // Update badge
+      badge.className = 'mode-badge demo';
+      badge.querySelector('.badge-text').textContent = 'Demo Modus';
+    });
+
+    optGmail.addEventListener('click', () => {
+      state.activeMode = 'gmail';
+      optGmail.classList.add('active');
+      optDemo.classList.remove('active');
+      if (gmailSetupFields) {
+        gmailSetupFields.style.display = 'block';
+        // Focus het input veld
+        const input = document.getElementById('gmail-client-id');
+        if (input) input.focus();
+      }
+      
+      // Update badge
+      badge.className = 'mode-badge gmail';
+      badge.querySelector('.badge-text').textContent = 'Gmail Modus';
+    });
+  }
+}
+
+// 2. Client ID voorbereiden en opslaan
+function setupClientIdInput() {
+  const input = document.getElementById('gmail-client-id');
+  if (input) {
+    // Laad opgeslagen ID
+    const savedId = getSavedClientId();
+    input.value = savedId;
+    state.clientId = savedId;
+
+    // Sla op bij typen/focus verlies
+    input.addEventListener('input', (e) => {
+      state.clientId = e.target.value.trim();
+      saveClientId(state.clientId);
+    });
+  }
+}
+
+// 3. Starten van de scan-processen
+function setupScanTriggers() {
+  const btnStartScan = document.getElementById('btn-start-scan');
+  const btnScanAgain = document.getElementById('btn-scan-again');
+
+  if (btnStartScan) {
+    btnStartScan.addEventListener('click', () => {
+      startScanning();
+    });
+  }
+
+  if (btnScanAgain) {
+    btnScanAgain.addEventListener('click', () => {
+      startScanning();
+    });
+  }
+}
+
+async function startScanning() {
+  const instructionsPanel = document.getElementById('gmail-instructions-panel');
+  const errorCard = document.getElementById('error-diagnostic-card');
+  if (errorCard) errorCard.style.display = 'none';
+  
+  if (state.activeMode === 'demo') {
+    if (instructionsPanel) instructionsPanel.style.display = 'none';
+    
+    // Switch naar scanner
+    showScreen('screen-scanner');
+    
+    // Start mock scan
+    try {
+      const results = await scanMockEmails((progress) => {
+        updateScannerUI(progress);
+      });
+      
+      // Sla resultaten op
+      state.newsletters = results;
+      
+      // Laad Dashboard
+      finishScanning();
+    } catch (e) {
+      handleScanError(e);
+    }
+    
+  } else {
+    // Gmail Modus
+    if (instructionsPanel) instructionsPanel.style.display = 'block';
+    
+    if (!state.clientId) {
+      alert('Vul eerst een geldige Google OAuth Client-ID in om te koppelen met Gmail.');
+      return;
+    }
+
+    // Initialiseer en start Google flow
+    initGoogleClient(
+      state.clientId, 
+      // Callback bij succesvol token
+      async (token) => {
+        document.getElementById('btn-disconnect').style.display = 'inline-flex';
+        showScreen('screen-scanner');
+        
+        try {
+          const results = await scanRealGmail((progress) => {
+            updateScannerUI(progress);
+          });
+          
+          state.newsletters = results;
+          finishScanning();
+        } catch (err) {
+          handleScanError(err);
+        }
+      },
+      // Callback bij fout
+      (errMsg) => {
+        handleScanError(errMsg);
+      }
+    );
+
+    // Vraag toegang aan (opent popup)
+    requestGmailAccess();
+  }
+}
+
+function handleScanError(err) {
+  showScreen('screen-welcome');
+  const errorCard = document.getElementById('error-diagnostic-card');
+  const errorText = document.getElementById('error-msg-text');
+  const failedFetchTips = document.getElementById('diagnostic-failed-fetch-tips');
+
+  const message = typeof err === 'object' ? (err.message || err.error || JSON.stringify(err)) : err;
+
+  if (errorCard && errorText) {
+    errorCard.style.display = 'block';
+    errorText.textContent = message;
+
+    const errMsgLower = message.toLowerCase();
+    if (errMsgLower.includes('fetch') || errMsgLower.includes('typeerror') || errMsgLower.includes('cors')) {
+      if (failedFetchTips) failedFetchTips.style.display = 'block';
+    } else {
+      if (failedFetchTips) failedFetchTips.style.display = 'none';
+    }
+    
+    errorCard.scrollIntoView({ behavior: 'smooth' });
+  } else {
+    alert(`Er ging iets fout tijdens het inlezen van je e-mails: ${message}`);
+  }
+}
+
+function finishScanning() {
+  // Update stats
+  updateStatsUI(state.newsletters);
+  
+  // Render lijst
+  renderNewsletterList(
+    state.newsletters, 
+    state.activeFilter, 
+    handleUnsubscribe
+  );
+  
+  // Switch naar Dashboard
+  showScreen('screen-dashboard');
+}
+
+// 4. Afhandelen van het uitschrijven (Unsubscribe callback)
+async function handleUnsubscribe(item) {
+  if (state.activeMode === 'demo') {
+    // Simuleer een netwerkvertraging van 600ms
+    await new Promise(resolve => setTimeout(resolve, 600));
+    
+    // Update de status in het geheugen
+    const target = state.newsletters.find(n => n.id === item.id);
+    if (target) {
+      target.status = 'unsubscribed';
+    }
+  } else {
+    // Echte Gmail afhandeling
+    await unsubscribeRealGmail(item);
+    
+    const target = state.newsletters.find(n => n.id === item.id);
+    if (target) {
+      target.status = 'unsubscribed';
+    }
+  }
+
+  // Update UI & Stats direct live!
+  updateStatsUI(state.newsletters);
+  renderNewsletterList(
+    state.newsletters, 
+    state.activeFilter, 
+    handleUnsubscribe
+  );
+}
+
+// 5. Instellen van de filter-tabs
+function setupFilterTabs() {
+  const tabs = document.querySelectorAll('.filter-tab');
+  tabs.forEach(tab => {
+    tab.addEventListener('click', (e) => {
+      // Verwijder active klasse van alle tabs
+      tabs.forEach(t => t.classList.remove('active'));
+      
+      // Voeg toe aan geklikte tab
+      e.target.classList.add('active');
+      
+      // Update filter en render
+      state.activeFilter = e.target.getAttribute('data-filter');
+      renderNewsletterList(
+        state.newsletters, 
+        state.activeFilter, 
+        handleUnsubscribe
+      );
+    });
+  });
+}
+
+// 6. Header acties (zoals ontkoppelen)
+function setupHeaderActions() {
+  const btnDisconnect = document.getElementById('btn-disconnect');
+  if (btnDisconnect) {
+    btnDisconnect.addEventListener('click', () => {
+      disconnectGmail();
+      state.newsletters = [];
+      btnDisconnect.style.display = 'none';
+      showScreen('screen-welcome');
+      
+      // Reset badge
+      const badge = document.getElementById('active-mode-badge');
+      state.activeMode = 'demo';
+      badge.className = 'mode-badge demo';
+      badge.querySelector('.badge-text').textContent = 'Demo Modus';
+      document.getElementById('opt-demo').classList.add('active');
+      document.getElementById('opt-gmail').classList.remove('active');
+      document.getElementById('gmail-setup-fields').style.display = 'none';
+    });
+  }
+}
