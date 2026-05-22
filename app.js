@@ -76,7 +76,7 @@ function setupModeSelection() {
       
       // Update badge
       badge.className = 'mode-badge demo';
-      badge.querySelector('.badge-text').textContent = 'Demo Modus';
+      badge.querySelector('.badge-text').textContent = 'Demo';
     });
 
     optGmail.addEventListener('click', () => {
@@ -94,7 +94,7 @@ function setupModeSelection() {
       
       // Update badge
       badge.className = 'mode-badge gmail';
-      badge.querySelector('.badge-text').textContent = 'Gmail Modus';
+      badge.querySelector('.badge-text').textContent = 'Gmail';
     });
 
     optOutlook.addEventListener('click', () => {
@@ -112,7 +112,7 @@ function setupModeSelection() {
       
       // Update badge
       badge.className = 'mode-badge outlook';
-      badge.querySelector('.badge-text').textContent = 'Outlook Modus';
+      badge.querySelector('.badge-text').textContent = 'Outlook';
     });
   }
 }
@@ -526,7 +526,7 @@ function setupHeaderActions() {
       const badge = document.getElementById('active-mode-badge');
       state.activeMode = 'demo';
       badge.className = 'mode-badge demo';
-      badge.querySelector('.badge-text').textContent = 'Demo Modus';
+      badge.querySelector('.badge-text').textContent = 'Demo';
       
       document.getElementById('opt-demo').classList.add('active');
       document.getElementById('opt-gmail').classList.remove('active');
