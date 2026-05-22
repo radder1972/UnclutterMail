@@ -5,23 +5,23 @@
 
 :root {
   /* HSL Color Palette - Pristine Light Mode */
-  --bg-primary: hsl(210, 33%, 98%);
-  --bg-secondary: hsl(210, 20%, 94%);
+  --bg-primary: hsl(150, 25%, 98%);
+  --bg-secondary: hsl(150, 18%, 94%);
   --card-bg: rgba(255, 255, 255, 0.75);
   --card-border: rgba(0, 0, 0, 0.08);
-  --card-glow: rgba(0, 97, 255, 0.02);
+  --card-glow: rgba(0, 178, 161, 0.02);
   
-  --color-primary: hsl(215, 100%, 52%);      /* Premium Royal Blue */
-  --color-primary-rgb: 0, 97, 255;
-  --color-secondary: hsl(263, 90%, 55%);    /* Elegant Violet */
-  --color-secondary-rgb: 127, 0, 255;
-  --color-accent: hsl(339, 90%, 55%);       /* Vibrant Amber/Pink */
+  --color-primary: hsl(174, 100%, 35%);      /* Premium Fresh Teal */
+  --color-primary-rgb: 0, 178, 161;
+  --color-secondary: hsl(138, 65%, 42%);    /* Fresh Leaf Green */
+  --color-secondary-rgb: 37, 177, 85;
+  --color-accent: hsl(158, 80%, 40%);       /* Vibrant Emerald */
   
-  --text-primary: hsl(222, 47%, 12%);
-  --text-secondary: hsl(220, 16%, 36%);
-  --text-muted: hsl(218, 12%, 55%);
+  --text-primary: hsl(165, 45%, 12%);
+  --text-secondary: hsl(165, 20%, 36%);
+  --text-muted: hsl(165, 12%, 55%);
   
-  --success: hsl(142, 60%, 35%);
+  --success: hsl(138, 65%, 35%);
   --warning: hsl(38, 92%, 40%);
   --danger: hsl(350, 75%, 45%);
   
@@ -108,21 +108,21 @@ header {
   font-size: 1.5rem;
   font-weight: 800;
   color: #ffffff; /* Wit in plaats van de donkere achtergrondkleur voor maximaal contrast */
-  box-shadow: 0 4px 20px rgba(0, 97, 255, 0.2);
+  box-shadow: 0 4px 20px rgba(0, 178, 161, 0.2);
 }
 
 .logo-icon-img {
   width: 44px;
   height: 44px;
   border-radius: 12px;
-  box-shadow: 0 6px 16px rgba(0, 97, 255, 0.16);
+  box-shadow: 0 6px 16px rgba(0, 178, 161, 0.16);
   object-fit: cover;
   transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .logo-container:hover .logo-icon-img {
   transform: scale(1.08) rotate(2deg);
-  box-shadow: 0 8px 24px rgba(0, 97, 255, 0.25);
+  box-shadow: 0 8px 24px rgba(0, 178, 161, 0.25);
 }
 
 .logo-text {
@@ -160,9 +160,9 @@ header {
 }
 
 .mode-badge.demo {
-  border-color: rgba(0, 97, 255, 0.3);
+  border-color: rgba(0, 178, 161, 0.3);
   color: var(--color-primary);
-  box-shadow: 0 0 10px rgba(0, 97, 255, 0.1);
+  box-shadow: 0 0 10px rgba(0, 178, 161, 0.1);
 }
 
 .mode-badge.outlook {
@@ -221,7 +221,7 @@ header {
   height: 140px;
   object-fit: contain;
   margin-bottom: 0.75rem;
-  filter: drop-shadow(0 10px 20px rgba(0, 97, 255, 0.1));
+  filter: drop-shadow(0 10px 20px rgba(0, 178, 161, 0.1));
   animation: float 6s ease-in-out infinite alternate;
 }
 
@@ -285,10 +285,10 @@ header {
 }
 
 .auth-option.active {
-  border-color: rgba(0, 97, 255, 0.2);
+  border-color: rgba(0, 178, 161, 0.2);
   border-left: 5px solid var(--color-primary);
   background: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 8px 30px rgba(0, 97, 255, 0.08);
+  box-shadow: 0 8px 30px rgba(0, 178, 161, 0.08);
   transform: translateY(-2px);
 }
 
@@ -341,7 +341,7 @@ input[type="text"], input[type="email"] {
 input[type="text"]:focus, input[type="email"]:focus {
   outline: none;
   border-color: var(--color-primary);
-  box-shadow: 0 0 15px rgba(0, 97, 255, 0.15);
+  box-shadow: 0 0 15px rgba(0, 178, 161, 0.15);
 }
 
 /* Specifieke styling voor de e-mailinvoervelden om deze groter en uiterst netjes te maken */
@@ -349,7 +349,7 @@ input[type="text"]:focus, input[type="email"]:focus {
   padding: 1.1rem 1.5rem;
   font-size: 1.15rem;
   border-radius: 14px;
-  border: 1.5px solid rgba(0, 97, 255, 0.12);
+  border: 1.5px solid rgba(0, 178, 161, 0.12);
   background: rgba(255, 255, 255, 0.95);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02), inset 0 2px 4px rgba(0, 0, 0, 0.01);
   font-weight: 500;
@@ -360,7 +360,7 @@ input[type="text"]:focus, input[type="email"]:focus {
 #gmail-email-address:focus, #outlook-email-address:focus {
   border-color: var(--color-primary);
   background: #ffffff;
-  box-shadow: 0 8px 20px rgba(0, 97, 255, 0.1), inset 0 2px 4px rgba(0, 0, 0, 0.01);
+  box-shadow: 0 8px 20px rgba(0, 178, 161, 0.1), inset 0 2px 4px rgba(0, 0, 0, 0.01);
   transform: translateY(-1px);
 }
 
@@ -413,11 +413,11 @@ input[type="text"]:focus, input[type="email"]:focus {
   color: #ffffff; /* Contrastkleur wit */
   border: none;
   font-weight: 700;
-  box-shadow: 0 4px 20px rgba(0, 97, 255, 0.2);
+  box-shadow: 0 4px 20px rgba(0, 178, 161, 0.2);
 }
 
 .btn-primary:hover {
-  box-shadow: 0 6px 25px rgba(0, 97, 255, 0.35);
+  box-shadow: 0 6px 25px rgba(0, 178, 161, 0.35);
 }
 
 .btn-block {
@@ -473,7 +473,7 @@ input[type="text"]:focus, input[type="email"]:focus {
   justify-content: center;
   font-size: 2.25rem;
   color: #ffffff; /* Wit in plaats van donkerblauw */
-  box-shadow: 0 0 30px rgba(0, 97, 255, 0.3);
+  box-shadow: 0 0 30px rgba(0, 178, 161, 0.3);
   z-index: 2;
   animation: rotateGlow 8s linear infinite;
 }
@@ -595,8 +595,8 @@ input[type="text"]:focus, input[type="email"]:focus {
   font-size: 1rem;
 }
 
-.stat-card:nth-child(1) .stat-icon { background: rgba(0, 97, 255, 0.1); color: var(--color-primary); }
-.stat-card:nth-child(2) .stat-icon { background: rgba(127, 0, 255, 0.1); color: var(--color-secondary); }
+.stat-card:nth-child(1) .stat-icon { background: rgba(0, 178, 161, 0.1); color: var(--color-primary); }
+.stat-card:nth-child(2) .stat-icon { background: rgba(37, 177, 85, 0.1); color: var(--color-secondary); }
 .stat-card:nth-child(3) .stat-icon { background: rgba(76, 175, 80, 0.1); color: var(--success); }
 .stat-card:nth-child(4) .stat-icon { background: rgba(255, 107, 107, 0.1); color: var(--color-accent); }
 
@@ -703,12 +703,12 @@ input[type="text"]:focus, input[type="email"]:focus {
 }
 
 .newsletters-container::-webkit-scrollbar-thumb {
-  background: rgba(0, 97, 255, 0.1);
+  background: rgba(0, 178, 161, 0.1);
   border-radius: 3px;
 }
 
 .newsletters-container::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 97, 255, 0.2);
+  background: rgba(0, 178, 161, 0.2);
 }
 
 .newsletter-item {
@@ -725,7 +725,7 @@ input[type="text"]:focus, input[type="email"]:focus {
 }
 
 .newsletter-item:hover {
-  border-color: rgba(0, 97, 255, 0.15);
+  border-color: rgba(0, 178, 161, 0.15);
   background: #ffffff;
   transform: translateY(-1px);
 }
@@ -784,9 +784,9 @@ input[type="text"]:focus, input[type="email"]:focus {
 }
 
 .tag-freq {
-  background: rgba(0, 97, 255, 0.08);
+  background: rgba(0, 178, 161, 0.08);
   color: var(--color-primary);
-  border: 1px solid rgba(0, 97, 255, 0.15);
+  border: 1px solid rgba(0, 178, 161, 0.15);
 }
 
 .tag-score {
@@ -824,13 +824,13 @@ input[type="text"]:focus, input[type="email"]:focus {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  box-shadow: 0 4px 12px rgba(0, 97, 255, 0.12);
+  box-shadow: 0 4px 12px rgba(0, 178, 161, 0.12);
   transition: var(--transition-bounce);
 }
 
 .btn-unsub:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(0, 97, 255, 0.22);
+  box-shadow: 0 6px 18px rgba(0, 178, 161, 0.22);
 }
 
 .btn-unsub:active {
@@ -886,8 +886,8 @@ input[type="text"]:focus, input[type="email"]:focus {
 }
 
 .quick-clean-box {
-  background: linear-gradient(135deg, rgba(127, 0, 255, 0.08) 0%, rgba(0, 97, 255, 0.08) 100%);
-  border: 1px solid rgba(0, 97, 255, 0.15);
+  background: linear-gradient(135deg, rgba(37, 177, 85, 0.08) 0%, rgba(0, 178, 161, 0.08) 100%);
+  border: 1px solid rgba(0, 178, 161, 0.15);
   border-radius: 20px;
   padding: 1.75rem;
   text-align: center;
@@ -965,9 +965,9 @@ input[type="text"]:focus, input[type="email"]:focus {
 }
 
 @keyframes rotateGlow {
-  0% { transform: rotate(0deg); box-shadow: 0 0 25px rgba(0, 97, 255, 0.25); }
-  50% { box-shadow: 0 0 45px rgba(127, 0, 255, 0.45); }
-  100% { transform: rotate(360deg); box-shadow: 0 0 25px rgba(0, 97, 255, 0.25); }
+  0% { transform: rotate(0deg); box-shadow: 0 0 25px rgba(0, 178, 161, 0.25); }
+  50% { box-shadow: 0 0 45px rgba(37, 177, 85, 0.45); }
+  100% { transform: rotate(360deg); box-shadow: 0 0 25px rgba(0, 178, 161, 0.25); }
 }
 
 @keyframes feedSlide {

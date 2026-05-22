@@ -257,7 +257,7 @@ export function showConfetti() {
 
   container.style.display = 'block';
   
-  const colors = ['#0061ff', '#4facfe', '#7f00ff', '#ff6b6b', '#81c784'];
+  const colors = ['#00b2a1', '#25b155', '#12b886', '#ffd43b', '#a9e34b'];
   const symbols = ['🎉', '✨', '✓', '⭐', '🎈'];
 
   for (let i = 0; i < 40; i++) {
