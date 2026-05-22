@@ -151,6 +151,12 @@ header {
   box-shadow: 0 0 10px rgba(0, 97, 255, 0.1);
 }
 
+.mode-badge.outlook {
+  border-color: rgba(0, 120, 212, 0.3);
+  color: #0078d4;
+  box-shadow: 0 0 10px rgba(0, 120, 212, 0.1);
+}
+
 /* State Screens */
 .screen {
   display: none;

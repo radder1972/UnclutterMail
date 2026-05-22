@@ -15,16 +15,25 @@ import {
   getSavedClientId, 
   saveClientId, 
   scanRealGmail, 
-  unsubscribeRealGmail,
-  getExistingToken 
+  unsubscribeRealGmail 
 } from './services/gmailService.js';
+import {
+  initOutlookClient,
+  requestOutlookAccess,
+  disconnectOutlook,
+  getSavedClientId as getSavedOutlookClientId,
+  saveClientId as saveOutlookClientId,
+  scanRealOutlook,
+  cleanNewsletterOutlook
+} from './services/outlookService.js';
 
 // Application State
 let state = {
-  activeMode: 'demo', // 'demo' of 'gmail'
+  activeMode: 'demo', // 'demo', 'gmail' of 'outlook'
   newsletters: [],
   activeFilter: 'all',
-  clientId: ''
+  clientId: '',
+  outlookClientId: ''
 };
 
 // Initialisatie als de DOM geladen is
@@ -36,19 +45,23 @@ document.addEventListener('DOMContentLoaded', () => {
   setupHeaderActions();
 });
 
-// 1. Instellen van de modus-selectie (Demo vs Gmail)
+// 1. Instellen van de modus-selectie (Demo vs Gmail vs Outlook)
 function setupModeSelection() {
   const optDemo = document.getElementById('opt-demo');
   const optGmail = document.getElementById('opt-gmail');
+  const optOutlook = document.getElementById('opt-outlook');
   const gmailSetupFields = document.getElementById('gmail-setup-fields');
+  const outlookSetupFields = document.getElementById('outlook-setup-fields');
   const badge = document.getElementById('active-mode-badge');
 
-  if (optDemo && optGmail) {
+  if (optDemo && optGmail && optOutlook) {
     optDemo.addEventListener('click', () => {
       state.activeMode = 'demo';
       optDemo.classList.add('active');
       optGmail.classList.remove('active');
+      optOutlook.classList.remove('active');
       if (gmailSetupFields) gmailSetupFields.style.display = 'none';
+      if (outlookSetupFields) outlookSetupFields.style.display = 'none';
       
       // Update badge
       badge.className = 'mode-badge demo';
@@ -59,33 +72,67 @@ function setupModeSelection() {
       state.activeMode = 'gmail';
       optGmail.classList.add('active');
       optDemo.classList.remove('active');
+      optOutlook.classList.remove('active');
       if (gmailSetupFields) {
         gmailSetupFields.style.display = 'block';
         // Focus het input veld
         const input = document.getElementById('gmail-client-id');
         if (input) input.focus();
       }
+      if (outlookSetupFields) outlookSetupFields.style.display = 'none';
       
       // Update badge
       badge.className = 'mode-badge gmail';
       badge.querySelector('.badge-text').textContent = 'Gmail Modus';
+    });
+
+    optOutlook.addEventListener('click', () => {
+      state.activeMode = 'outlook';
+      optOutlook.classList.add('active');
+      optDemo.classList.remove('active');
+      optGmail.classList.remove('active');
+      if (outlookSetupFields) {
+        outlookSetupFields.style.display = 'block';
+        // Focus het input veld
+        const input = document.getElementById('outlook-client-id');
+        if (input) input.focus();
+      }
+      if (gmailSetupFields) gmailSetupFields.style.display = 'none';
+      
+      // Update badge
+      badge.className = 'mode-badge outlook';
+      badge.querySelector('.badge-text').textContent = 'Outlook Modus';
     });
   }
 }
 
 // 2. Client ID voorbereiden en opslaan
 function setupClientIdInput() {
-  const input = document.getElementById('gmail-client-id');
-  if (input) {
+  const gmailInput = document.getElementById('gmail-client-id');
+  if (gmailInput) {
     // Laad opgeslagen ID
     const savedId = getSavedClientId();
-    input.value = savedId;
+    gmailInput.value = savedId;
     state.clientId = savedId;
 
     // Sla op bij typen/focus verlies
-    input.addEventListener('input', (e) => {
+    gmailInput.addEventListener('input', (e) => {
       state.clientId = e.target.value.trim();
       saveClientId(state.clientId);
+    });
+  }
+
+  const outlookInput = document.getElementById('outlook-client-id');
+  if (outlookInput) {
+    // Laad opgeslagen ID
+    const savedId = getSavedOutlookClientId();
+    outlookInput.value = savedId;
+    state.outlookClientId = savedId;
+
+    // Sla op bij typen/focus verlies
+    outlookInput.addEventListener('input', (e) => {
+      state.outlookClientId = e.target.value.trim();
+      saveOutlookClientId(state.outlookClientId);
     });
   }
 }
@@ -109,12 +156,14 @@ function setupScanTriggers() {
 }
 
 async function startScanning() {
-  const instructionsPanel = document.getElementById('gmail-instructions-panel');
+  const gmailInstructions = document.getElementById('gmail-instructions-panel');
+  const outlookInstructions = document.getElementById('outlook-instructions-panel');
   const errorCard = document.getElementById('error-diagnostic-card');
   if (errorCard) errorCard.style.display = 'none';
   
   if (state.activeMode === 'demo') {
-    if (instructionsPanel) instructionsPanel.style.display = 'none';
+    if (gmailInstructions) gmailInstructions.style.display = 'none';
+    if (outlookInstructions) outlookInstructions.style.display = 'none';
     
     // Switch naar scanner
     showScreen('screen-scanner');
@@ -134,9 +183,10 @@ async function startScanning() {
       handleScanError(e);
     }
     
-  } else {
+  } else if (state.activeMode === 'gmail') {
     // Gmail Modus
-    if (instructionsPanel) instructionsPanel.style.display = 'block';
+    if (gmailInstructions) gmailInstructions.style.display = 'block';
+    if (outlookInstructions) outlookInstructions.style.display = 'none';
     
     if (!state.clientId) {
       alert('Vul eerst een geldige Google OAuth Client-ID in om te koppelen met Gmail.');
@@ -170,6 +220,62 @@ async function startScanning() {
 
     // Vraag toegang aan (opent popup)
     requestGmailAccess();
+  } else if (state.activeMode === 'outlook') {
+    // Outlook Modus
+    if (outlookInstructions) outlookInstructions.style.display = 'block';
+    if (gmailInstructions) gmailInstructions.style.display = 'none';
+    
+    if (!state.outlookClientId) {
+      alert('Vul eerst een geldige Microsoft Application Client-ID in om te koppelen met Outlook.');
+      return;
+    }
+
+    // Initialiseer en start Microsoft flow
+    await initOutlookClient(
+      state.outlookClientId,
+      // Callback bij stilzwijgend token succes (direct scannen)
+      async (token) => {
+        document.getElementById('btn-disconnect').style.display = 'inline-flex';
+        showScreen('screen-scanner');
+        
+        try {
+          const results = await scanRealOutlook((progress) => {
+            updateScannerUI(progress);
+          });
+          
+          state.newsletters = results;
+          finishScanning();
+        } catch (err) {
+          handleScanError(err);
+        }
+      },
+      // Callback bij fout
+      (errMsg) => {
+        console.warn("MSAL silent init warning/error:", errMsg);
+      }
+    );
+
+    // Open popup voor authenticatie
+    await requestOutlookAccess(
+      async (token) => {
+        document.getElementById('btn-disconnect').style.display = 'inline-flex';
+        showScreen('screen-scanner');
+        
+        try {
+          const results = await scanRealOutlook((progress) => {
+            updateScannerUI(progress);
+          });
+          
+          state.newsletters = results;
+          finishScanning();
+        } catch (err) {
+          handleScanError(err);
+        }
+      },
+      (errMsg) => {
+        handleScanError(errMsg);
+      }
+    );
   }
 }
 
@@ -224,9 +330,17 @@ async function handleUnsubscribe(item) {
     if (target) {
       target.status = 'unsubscribed';
     }
-  } else {
+  } else if (state.activeMode === 'gmail') {
     // Echte Gmail afhandeling
     await unsubscribeRealGmail(item);
+    
+    const target = state.newsletters.find(n => n.id === item.id);
+    if (target) {
+      target.status = 'unsubscribed';
+    }
+  } else if (state.activeMode === 'outlook') {
+    // Echte Outlook afhandeling
+    await cleanNewsletterOutlook(item);
     
     const target = state.newsletters.find(n => n.id === item.id);
     if (target) {
@@ -270,7 +384,12 @@ function setupHeaderActions() {
   const btnDisconnect = document.getElementById('btn-disconnect');
   if (btnDisconnect) {
     btnDisconnect.addEventListener('click', () => {
-      disconnectGmail();
+      if (state.activeMode === 'gmail') {
+        disconnectGmail();
+      } else if (state.activeMode === 'outlook') {
+        disconnectOutlook();
+      }
+      
       state.newsletters = [];
       btnDisconnect.style.display = 'none';
       showScreen('screen-welcome');
@@ -280,9 +399,13 @@ function setupHeaderActions() {
       state.activeMode = 'demo';
       badge.className = 'mode-badge demo';
       badge.querySelector('.badge-text').textContent = 'Demo Modus';
+      
       document.getElementById('opt-demo').classList.add('active');
       document.getElementById('opt-gmail').classList.remove('active');
+      document.getElementById('opt-outlook').classList.remove('active');
+      
       document.getElementById('gmail-setup-fields').style.display = 'none';
+      document.getElementById('outlook-setup-fields').style.display = 'none';
     });
   }
 }

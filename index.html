@@ -10,6 +10,8 @@
   <script src="https://accounts.google.com/gsi/client" async defer></script>
   <!-- Google APIs Client Library voor API interactie zonder CORS-blokkades -->
   <script src="https://apis.google.com/js/api.js" async defer></script>
+  <!-- Microsoft Authentication Library (MSAL Browser) voor Live/Outlook integratie -->
+  <script src="https://alcdn.msauth.net/browser/2.38.0/js/msal-browser.min.js"></script>
 </head>
 <body>
 
@@ -70,6 +72,26 @@
                     </div>
                     <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.35rem;">
                       Heb je er geen? Klik op 'Starten met Scannen' om de demo-modus te gebruiken of lees de instructies in het dashboard.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- OPTIE 3: ECHTE OUTLOOK KOPPELING -->
+              <div id="opt-outlook" class="glass-card auth-option" style="padding: 1.5rem; cursor: pointer;">
+                <div class="auth-title">Ⓜ️ Koppel met echte Outlook / Hotmail</div>
+                <div class="auth-desc" style="margin-bottom: 1rem;">
+                  Verbind veilig met je Microsoft-account (Outlook, Hotmail, Live) via Microsoft Graph en schoont je mailbox op.
+                </div>
+                
+                <div id="outlook-setup-fields" style="display: none; animation: fadeIn 0.3s ease-out;">
+                  <div class="form-group" style="margin-bottom: 1rem;">
+                    <label for="outlook-client-id">Microsoft Application (Client) ID</label>
+                    <div class="input-wrapper">
+                      <input type="text" id="outlook-client-id" placeholder="b.v. a1b2c3d4-e5f6-7a8b-9c0d-e1f2a3b4c5d6">
+                    </div>
+                    <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.35rem;">
+                      Voer je Azure App Application Client-ID in om te verbinden. Zie instructies onderaan het dashboard.
                     </p>
                   </div>
                 </div>
@@ -257,6 +279,18 @@
                     <li>Kies <strong>Web application</strong>.</li>
                     <li>Voeg bij <strong>Authorized JavaScript origins</strong> toe: <code>http://localhost:5000</code> of de URL waar je deze pagina opent.</li>
                     <li>Kopieer de Client-ID en plak hem bij het opstarten.</li>
+                  </ol>
+                </div>
+
+                <div class="setup-instructions" id="outlook-instructions-panel" style="display: none;">
+                  <h4>🛠️ Hoe maak ik een Microsoft Application ID?</h4>
+                  <ol>
+                    <li>Ga naar de <a href="https://portal.azure.com/" target="_blank">Microsoft Azure Portal</a>.</li>
+                    <li>Zoek naar <strong>App-registraties</strong> (App Registrations) en klik op <strong>Nieuwe registratie</strong>.</li>
+                    <li>Vul een naam in (bijv. <code>UnclutterMail</code>).</li>
+                    <li>Kies bij ondersteunde accounttypen: <strong>Accounts in een willekeurige organisatorische directory en persoonlijke Microsoft-accounts</strong>.</li>
+                    <li>Selecteer bij <strong>Omleidings-URI</strong> het platform <strong>Single Page Application (SPA)</strong> en vul in: <code>http://localhost:5000</code> (of de live URL).</li>
+                    <li>Klik op <strong>Registreren</strong>. Kopieer de <strong>Toepassings-ID (client-ID)</strong> uit het overzicht.</li>
                   </ol>
                 </div>
               </div>
