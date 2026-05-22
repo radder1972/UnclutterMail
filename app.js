@@ -217,12 +217,10 @@ function setupScanTriggers() {
 }
 
 async function startScanning() {
-  const gmailInstructions = document.getElementById('gmail-instructions-panel');
   const errorCard = document.getElementById('error-diagnostic-card');
   if (errorCard) errorCard.style.display = 'none';
   
   if (state.activeMode === 'demo') {
-    if (gmailInstructions) gmailInstructions.style.display = 'none';
     
     // Switch naar scanner
     showScreen('screen-scanner');
@@ -244,7 +242,6 @@ async function startScanning() {
     
   } else if (state.activeMode === 'gmail') {
     // Gmail Modus
-    if (gmailInstructions) gmailInstructions.style.display = 'block';
     
     if (!state.gmailEmailAddress) {
       alert('Vul eerst jouw Gmail-adres in om te koppelen met Gmail.');
@@ -282,7 +279,6 @@ async function startScanning() {
     requestGmailAccess(state.gmailEmailAddress);
   } else if (state.activeMode === 'outlook') {
     // Outlook Modus
-    if (gmailInstructions) gmailInstructions.style.display = 'none';
     
     if (!state.outlookEmailAddress) {
       alert('Vul eerst jouw Microsoft- of Outlook-adres in om te koppelen met Outlook.');
