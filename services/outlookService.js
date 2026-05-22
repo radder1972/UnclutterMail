@@ -5,7 +5,7 @@ let msalInstance = null;
 let accessToken = null;
 let activeAccount = null;
 
-export const DEFAULT_OUTLOOK_CLIENT_ID = 'b3658514-a957-4148-8dfa-ce3db8255ee8'; // Standaard ingebouwde Microsoft Client-ID
+export const DEFAULT_OUTLOOK_CLIENT_ID = '6f15b550-356a-4532-82c8-6a7213c713d4'; // Standaard ingebouwde Microsoft Client-ID
 
 // Sla client ID op in localStorage zodat de gebruiker deze maar één keer hoeft in te voeren
 export function getSavedClientId() {
